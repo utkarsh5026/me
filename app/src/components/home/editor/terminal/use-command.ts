@@ -8,6 +8,7 @@ import {
 } from "@/components/home/editor/context/editor-store";
 import { articles } from "@/components/home/portfolio/articles/articles-dump";
 import {
+  ai,
   databases,
   frameworks,
   languages,
@@ -216,7 +217,7 @@ Type 'about' for more information or 'contact' to get in touch.
  * Custom hook that provides content-related commands for exploring portfolio sections.
  *
  * This hook offers commands to explore different aspects of the portfolio:
- * - skills: Browse technical skills by category (languages, frameworks, databases, tools)
+ * - skills: Browse technical skills by category (languages, frameworks, databases, tools, ai)
  * - projects: View projects and their details
  * - articles: Read articles written by the portfolio owner
  * - contact: Get contact information
@@ -231,7 +232,7 @@ export const useSectionCommands = () => {
       name: "skills",
       description: "List my technical skills",
       usage: "skills [category]",
-      args: () => ["languages", "frameworks", "databases", "tools"],
+      args: () => ["languages", "frameworks", "databases", "tools", "ai"],
       execute: (args: string[]) => {
         const category = args[0]?.toLowerCase();
 
@@ -247,6 +248,8 @@ export const useSectionCommands = () => {
               return _arrayJoin([...databases]);
             case "tools":
               return _arrayJoin([...tools]);
+            case "ai":
+              return _arrayJoin([...ai]);
             default:
               return `Unknown category: ${category}`;
           }
@@ -259,6 +262,7 @@ languages   - Programming languages
 frameworks  - Frameworks and libraries
 databases   - Database systems
 tools       - Development tools
+ai          - AI & LLM tooling
 
 Use "skills [category]" to see specific skills.
         `;
