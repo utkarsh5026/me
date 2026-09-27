@@ -66,7 +66,8 @@ def run_cmd(args, allow_failure: bool = False, cwd: str | None = None):
     stdout/stderr are NOT captured — colour output passes through unmodified.
     """
     try:
-        result = subprocess.run(args, cwd=cwd, shell=True)
+        # shell=True with a list only runs args[0] on POSIX; Windows needs it to resolve .cmd shims
+        result = subprocess.run(args, cwd=cwd, shell=os.name == "nt")
     except FileNotFoundError:
         print(f"{Fore.RED}[ERROR]{Style.RESET_ALL} Command not found: '{args[0]}'")
         print(f"        Ensure '{args[0]}' is installed and on your PATH.")
