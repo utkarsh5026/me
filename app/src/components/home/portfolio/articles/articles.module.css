@@ -1,0 +1,49 @@
+/* Articles — "photo develop".
+   Cards ripple in along each row (--i = column), and cover images develop
+   from dim and desaturated into their resting look. The filter list here
+   must match the Tailwind resting classes (brightness, then saturate) so
+   the browser interpolates it instead of snapping. */
+
+.card {
+  opacity: 0;
+}
+
+.card[data-inview] {
+  opacity: 1;
+  animation: cardIn 0.5s cubic-bezier(0.2, 0.7, 0.2, 1) backwards;
+  animation-delay: calc(var(--i, 0) * 90ms);
+}
+
+@keyframes cardIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
+
+[data-inview] .develop {
+  animation: develop 0.9s ease-out backwards;
+  animation-delay: calc(120ms + var(--i, 0) * 90ms);
+}
+
+@keyframes develop {
+  from {
+    filter: brightness(0.55) saturate(0.2);
+    transform: scale(1.06);
+  }
+}
+
+/* Title underline draws from the left on hover (works across wrapped lines). */
+.titleUnderline {
+  background: linear-gradient(currentColor, currentColor) no-repeat 0 100% / 0
+    1px;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+  transition: background-size 0.35s ease;
+}
+
+@media (hover: hover) {
+  :global(.group):hover .titleUnderline {
+    background-size: 100% 1px;
+  }
+}
