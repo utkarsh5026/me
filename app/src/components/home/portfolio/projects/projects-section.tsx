@@ -16,6 +16,7 @@ import type { Project } from "@/types";
 import { ProjectThemeProvider } from "./context/ProjectThemeProvider";
 import FeaturedProject from "./featured/featured-project";
 import ProjectSmall from "./project-small";
+import styles from "./projects.module.css";
 
 const Projects: React.FC = () => {
   const ref = useGitComponent(Projects);
@@ -107,103 +108,93 @@ const Projects: React.FC = () => {
         <MobileProvider>
           <ProjectThemeProvider>
             <div ref={projectsRef} className="relative max-w-6xl mx-auto px-4 ">
-              <Reveal effect="fade-up" duration={0.7} delay={0.1}>
-                <QuoteBlock
-                  quote="What I cannot create, I do not understand."
-                  attribution="— Richard Feynman"
-                  className="mb-8"
-                />
-                <Tabs defaultValue="featured" className="w-full">
-                  <div className="w-full flex justify-end">
-                    <TabsList className="mb-8 bg-ctp-surface0/30 backdrop-blur-md border border-ctp-surface0 p-1 rounded-lg">
-                      {tabs.map(({ value, label, small, icon }) => (
-                        <TabsTrigger
-                          key={value}
-                          value={value}
-                          className="flex-1 data-[state=active]:bg-ctp-yellow/20 data-[state=active]:text-ctp-yellow"
-                        >
-                          {icon}
-                          <span className="hidden md:block">{label}</span>
-                          <span className="block md:hidden">{small}</span>
-                        </TabsTrigger>
-                      ))}
-                    </TabsList>
-                  </div>
+              <QuoteBlock
+                quote="What I cannot create, I do not understand."
+                attribution="— Richard Feynman"
+                className="mb-8"
+              />
+              <Tabs defaultValue="featured" className="w-full">
+                <div className="w-full flex justify-end">
+                  <TabsList className="mb-8 bg-ctp-surface0/30 backdrop-blur-md border border-ctp-surface0 p-1 rounded-lg">
+                    {tabs.map(({ value, label, small, icon }) => (
+                      <TabsTrigger
+                        key={value}
+                        value={value}
+                        className="flex-1 data-[state=active]:bg-ctp-yellow/20 data-[state=active]:text-ctp-yellow"
+                      >
+                        {icon}
+                        <span className="hidden md:block">{label}</span>
+                        <span className="block md:hidden">{small}</span>
+                      </TabsTrigger>
+                    ))}
+                  </TabsList>
+                </div>
 
-                  <TabsContent
-                    value="featured"
-                    className="focus-visible:outline-none"
+                <TabsContent
+                  value="featured"
+                  className={`focus-visible:outline-none ${styles.panelFromLeft}`}
+                >
+                  <OutlineNode
+                    label="Featured Project"
+                    icon={<Sparkles className="w-3 h-3 text-ctp-yellow" />}
                   >
-                    <OutlineNode
-                      label="Featured Project"
-                      icon={<Sparkles className="w-3 h-3 text-ctp-yellow" />}
-                    >
-                      <FeaturedProject
-                        featuredProject={featuredProject}
-                        handleProjectSelect={handleProjectSelect}
-                      />
-                    </OutlineNode>
-                  </TabsContent>
+                    <FeaturedProject
+                      featuredProject={featuredProject}
+                      handleProjectSelect={handleProjectSelect}
+                    />
+                  </OutlineNode>
+                </TabsContent>
 
-                  <TabsContent
-                    value="gallery"
-                    className="focus-visible:outline-none"
+                <TabsContent
+                  value="gallery"
+                  className={`focus-visible:outline-none ${styles.panelFromRight}`}
+                >
+                  <OutlineNode
+                    label="Project Gallery"
+                    icon={<Code className="w-3 h-3 text-ctp-peach" />}
                   >
-                    <OutlineNode
-                      label="Project Gallery"
-                      icon={<Code className="w-3 h-3 text-ctp-peach" />}
-                    >
-                      {/* Project grid */}
-                      <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-1 gap-4 sm:gap-6">
-                        {otherProjects
-                          .slice(0, visibleCount)
-                          .map((project, index) => (
-                            <OutlineNode
-                              key={project.name}
-                              label={project.name}
-                              icon={
-                                project.icon ? (
-                                  <span className="text-[10px]">
-                                    {project.icon}
-                                  </span>
-                                ) : undefined
-                              }
-                            >
-                              <Reveal
-                                effect="fade-up"
-                                duration={0.7}
-                                delay={0.1 * (index % 3)}
-                                staggerChildren={0.1}
-                                className="w-full h-full flex flex-1"
-                              >
-                                <ProjectSmall
-                                  project={project}
-                                  handleProjectSelect={handleProjectSelect}
-                                  index={index}
-                                />
-                              </Reveal>
-                            </OutlineNode>
-                          ))}
-                      </div>
+                    {/* Project grid */}
+                    <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-1 gap-4 sm:gap-6">
+                      {otherProjects
+                        .slice(0, visibleCount)
+                        .map((project, index) => (
+                          <OutlineNode
+                            key={project.name}
+                            label={project.name}
+                            icon={
+                              project.icon ? (
+                                <span className="text-[10px]">
+                                  {project.icon}
+                                </span>
+                              ) : undefined
+                            }
+                          >
+                            <ProjectSmall
+                              project={project}
+                              handleProjectSelect={handleProjectSelect}
+                              index={index}
+                            />
+                          </OutlineNode>
+                        ))}
+                    </div>
 
-                      {visibleCount < otherProjects.length && (
-                        <Reveal effect="fade-up" duration={0.7} delay={0.3}>
-                          <div className="flex justify-center mt-12">
-                            <Button
-                              onClick={loadMore}
-                              variant="outline"
-                              className="border-ctp-peach/30 hover:border-ctp-peach/50 bg-ctp-peach/5 hover:bg-ctp-peach/10 hover:text-ctp-peach text-ctp-peach px-6 py-6 text-small hover:scale-105 transition-all duration-300"
-                            >
-                              Load more ({otherProjects.length - visibleCount}{" "}
-                              remaining)
-                            </Button>
-                          </div>
-                        </Reveal>
-                      )}
-                    </OutlineNode>
-                  </TabsContent>
-                </Tabs>
-              </Reveal>
+                    {visibleCount < otherProjects.length && (
+                      <Reveal effect="fade-up" duration={0.7} delay={0.3}>
+                        <div className="flex justify-center mt-12">
+                          <Button
+                            onClick={loadMore}
+                            variant="outline"
+                            className="border-ctp-peach/30 hover:border-ctp-peach/50 bg-ctp-peach/5 hover:bg-ctp-peach/10 hover:text-ctp-peach text-ctp-peach px-6 py-6 text-small hover:scale-105 transition-all duration-300"
+                          >
+                            Load more ({otherProjects.length - visibleCount}{" "}
+                            remaining)
+                          </Button>
+                        </div>
+                      </Reveal>
+                    )}
+                  </OutlineNode>
+                </TabsContent>
+              </Tabs>
             </div>
           </ProjectThemeProvider>
         </MobileProvider>

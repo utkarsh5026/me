@@ -6,9 +6,13 @@ import TechBadge from "@/components/base/tech-badge";
 import IconBox from "@/components/ui/icon-box";
 import { Heading, Text } from "@/components/ui/text";
 import { useGitComponent } from "@/hooks/use-git-component";
+import { useInView } from "@/hooks/use-in-view";
+import { usePointerVars } from "@/hooks/use-pointer-vars";
+import { ctpAccentStyle } from "@/lib/ctp-colors";
 import { Project } from "@/types";
 
 import { useProjectTheme } from "./context/ThemeContext";
+import styles from "./projects.module.css";
 
 interface ProjectSmallProps {
   project: Project;
@@ -19,8 +23,11 @@ interface ProjectSmallProps {
 const ProjectSmall = memo<ProjectSmallProps>(function ProjectSmall({
   project,
   handleProjectSelect,
+  index,
 }) {
   const ref = useGitComponent<HTMLButtonElement>(ProjectSmall);
+  const inView = useInView(ref, { once: true, margin: "-40px 0px" });
+  usePointerVars(ref);
   const { getProjectTheme } = useProjectTheme();
   const { accentColor = "blue" } = getProjectTheme(project);
 
@@ -48,7 +55,14 @@ const ProjectSmall = memo<ProjectSmallProps>(function ProjectSmall({
     <button
       ref={ref}
       onClick={handleClick}
-      className={`group w-full text-left cursor-pointer bg-ctp-surface0/10 border border-ctp-surface0/30 hover:border-ctp-${accentColor}/50 rounded-xl sm:rounded-2xl p-4 sm:p-5 overflow-hidden transition-all duration-300 shadow-sm hover:shadow-md hover:shadow-ctp-${accentColor}/5 hover:-translate-y-0.5`}
+      data-inview={inView || undefined}
+      style={
+        {
+          ...ctpAccentStyle(accentColor),
+          "--i": index % 3,
+        } as React.CSSProperties
+      }
+      className={`group relative w-full text-left cursor-pointer bg-ctp-surface0/10 border border-ctp-surface0/30 hover:border-ctp-${accentColor}/50 rounded-xl sm:rounded-2xl p-4 sm:p-5 overflow-hidden shadow-sm hover:shadow-md hover:shadow-ctp-${accentColor}/5 ${styles.card}`}
       aria-label={`View details for ${project.name}`}
     >
       <div className="flex items-center gap-3 sm:gap-4 mb-4">
