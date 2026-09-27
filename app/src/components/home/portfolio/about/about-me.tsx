@@ -7,7 +7,7 @@ import {
   Target,
   User,
 } from "lucide-react";
-import React, { lazy, Suspense, useState } from "react";
+import React, { lazy, Suspense, useRef, useState } from "react";
 
 import Reveal from "@/components/animations/reveal/Reveal";
 import { OutlineNode } from "@/components/home/editor/outline";
@@ -20,6 +20,7 @@ import {
 import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
 import QuoteBlock from "@/components/ui/quote-block";
 import SectionLoader from "@/components/ui/section-loader";
+import { useInView } from "@/hooks/use-in-view";
 import useMobile from "@/hooks/use-mobile";
 import type { AppColor } from "@/lib/ctp-colors";
 
@@ -40,7 +41,6 @@ interface SectionData {
   title: string;
   description: string;
   Component: React.LazyExoticComponent<React.FC>;
-  delay?: number;
   icon: React.ComponentType<{ className?: string }>;
   color: AppColor;
   gradient: string;
@@ -52,7 +52,6 @@ const sections: SectionData[] = [
     title: "My Story",
     description: "Personal journey and background",
     Component: Background,
-    delay: 0.1,
     icon: BookOpen,
     color: "blue",
     gradient: "from-ctp-blue/20 to-ctp-sapphire/20",
@@ -62,7 +61,6 @@ const sections: SectionData[] = [
     title: "Education",
     description: "Academic foundation & achievements",
     Component: MyEducation,
-    delay: 0.2,
     icon: GraduationCap,
     color: "sapphire",
     gradient: "from-ctp-sapphire/20 to-ctp-sky/20",
@@ -72,7 +70,6 @@ const sections: SectionData[] = [
     title: "Core Skills",
     description: "Technologies I work with daily",
     Component: Skills,
-    delay: 0.3,
     icon: Code2,
     color: "green",
     gradient: "from-ctp-green/20 to-ctp-teal/20",
@@ -82,7 +79,6 @@ const sections: SectionData[] = [
     title: "Philosophy",
     description: "How I approach development & life",
     Component: Philosophy,
-    delay: 0.4,
     icon: Brain,
     color: "mauve",
     gradient: "from-ctp-mauve/20 to-ctp-pink/20",
@@ -92,7 +88,6 @@ const sections: SectionData[] = [
     title: "Interests & Hobbies",
     description: "What keeps me curious and motivated",
     Component: Interests,
-    delay: 0.5,
     icon: Heart,
     color: "pink",
     gradient: "from-ctp-pink/20 to-ctp-red/20",
@@ -102,7 +97,6 @@ const sections: SectionData[] = [
     title: "Current Focus",
     description: "What I'm actively learning and improving",
     Component: CurrentFocus,
-    delay: 0.6,
     icon: Target,
     color: "peach",
     gradient: "from-ctp-peach/20 to-ctp-yellow/20",
@@ -112,25 +106,18 @@ const sections: SectionData[] = [
 interface ResponsiveAboutSectionProps {
   section: SectionData;
   index: number;
-  totalSections: number;
 }
 
 const ResponsiveAboutSection: React.FC<ResponsiveAboutSectionProps> = ({
   section,
   index,
-  totalSections,
 }) => {
   const { isMobile } = useMobile();
   const [isOpen, setIsOpen] = useState(index === 0);
 
   if (isMobile) {
     return (
-      <MobileAboutSection
-        section={section}
-        index={index}
-        isOpen={isOpen}
-        totalSections={totalSections}
-      />
+      <MobileAboutSection section={section} index={index} isOpen={isOpen} />
     );
   }
 
@@ -139,7 +126,6 @@ const ResponsiveAboutSection: React.FC<ResponsiveAboutSectionProps> = ({
       section={section}
       index={index}
       isMobile={isMobile}
-      totalSections={totalSections}
       isOpen={isOpen}
       setIsOpen={setIsOpen}
     />
@@ -150,14 +136,12 @@ interface MobileAboutSectionProps {
   section: SectionData;
   index: number;
   isOpen: boolean;
-  totalSections: number;
 }
 
 const MobileAboutSection: React.FC<MobileAboutSectionProps> = ({
   section,
   index,
   isOpen,
-  totalSections,
 }) => {
   const SectionComponent = section.Component;
 
@@ -169,7 +153,6 @@ const MobileAboutSection: React.FC<MobileAboutSectionProps> = ({
             <AboutSectionCard
               section={section}
               index={index}
-              totalSections={totalSections}
               isMobile={true}
               isOpen={isOpen}
             />
@@ -191,7 +174,6 @@ interface DesktopAboutSectionProps {
   section: SectionData;
   index: number;
   isMobile: boolean;
-  totalSections: number;
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
 }
@@ -200,41 +182,40 @@ const DesktopAboutSection: React.FC<DesktopAboutSectionProps> = ({
   section,
   index,
   isMobile,
-  totalSections,
   isOpen,
   setIsOpen,
 }) => {
   const SectionComponent = section.Component;
 
   return (
-    <Reveal effect="fade-up" duration={0.6} delay={section.delay}>
-      <Collapsible open={isOpen} onOpenChange={setIsOpen}>
-        <CollapsibleTrigger asChild>
-          <button className="w-full text-left bg-ctp-surface0/20 hover:bg-ctp-surface0/30 transition-all duration-300 rounded-xl shadow-sm hover:shadow-md hover:shadow-ctp-surface0/20">
-            <AboutSectionCard
-              section={section}
-              index={index}
-              totalSections={totalSections}
-              isMobile={isMobile}
-              isOpen={isOpen}
-            />
-          </button>
-        </CollapsibleTrigger>
-        <CollapsibleContent className="data-[state=open]:animate-collapsible-down data-[state=closed]:animate-collapsible-up overflow-hidden">
-          <div
-            className={`${styles.sectionContent} ${isOpen ? styles.sectionContentOpen : ""}`}
-          >
-            <Suspense fallback={<SectionLoader />}>
-              <SectionComponent />
-            </Suspense>
-          </div>
-        </CollapsibleContent>
-      </Collapsible>
-    </Reveal>
+    <Collapsible open={isOpen} onOpenChange={setIsOpen}>
+      <CollapsibleTrigger asChild>
+        <button className="w-full text-left bg-ctp-surface0/20 hover:bg-ctp-surface0/30 transition-all duration-300 rounded-xl shadow-sm hover:shadow-md hover:shadow-ctp-surface0/20">
+          <AboutSectionCard
+            section={section}
+            index={index}
+            isMobile={isMobile}
+            isOpen={isOpen}
+          />
+        </button>
+      </CollapsibleTrigger>
+      <CollapsibleContent className="data-[state=open]:animate-collapsible-down data-[state=closed]:animate-collapsible-up overflow-hidden">
+        <div
+          className={`${styles.sectionContent} ${isOpen ? styles.sectionContentOpen : ""}`}
+        >
+          <Suspense fallback={<SectionLoader />}>
+            <SectionComponent />
+          </Suspense>
+        </div>
+      </CollapsibleContent>
+    </Collapsible>
   );
 };
 
 const AboutMe: React.FC = () => {
+  const listRef = useRef<HTMLDivElement>(null);
+  const inView = useInView(listRef, { once: true, margin: "-10% 0px" });
+
   return (
     <Section
       id={ABOUT_SECTION}
@@ -254,22 +235,27 @@ const AboutMe: React.FC = () => {
               className="mb-8"
             />
           </Reveal>
-          <div className="space-y-4 relative">
-            {sections.map((section, index) => (
-              <OutlineNode
-                key={section.id}
-                id={section.id}
-                label={section.title}
-                icon={<section.icon className="w-3 h-3" />}
-                iconColor={section.color}
-              >
-                <ResponsiveAboutSection
-                  section={section}
-                  index={index}
-                  totalSections={sections.length}
-                />
-              </OutlineNode>
-            ))}
+          <div
+            ref={listRef}
+            data-inview={inView || undefined}
+            style={{ "--n": sections.length } as React.CSSProperties}
+            className="relative"
+          >
+            {/* git log --graph rail; each card's dot "commits" as it passes */}
+            <div aria-hidden="true" className={styles.graphRail} />
+            <div className="space-y-4">
+              {sections.map((section, index) => (
+                <OutlineNode
+                  key={section.id}
+                  id={section.id}
+                  label={section.title}
+                  icon={<section.icon className="w-3 h-3" />}
+                  iconColor={section.color}
+                >
+                  <ResponsiveAboutSection section={section} index={index} />
+                </OutlineNode>
+              ))}
+            </div>
           </div>
 
           {/* Footer Call to Action */}
