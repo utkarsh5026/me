@@ -3,12 +3,10 @@ import {
   BrainCircuit,
   Code2,
   Database,
-  DatabaseZap,
   FileSearch,
   Layers,
   Server,
   Waypoints,
-  Workflow,
 } from "lucide-react";
 import { FaAws, FaJava, FaTools } from "react-icons/fa";
 import {
@@ -35,6 +33,8 @@ import {
   SiTailwindcss,
   SiTypescript,
 } from "react-icons/si";
+
+import { AwsBedrockIcon, DynamoDbIcon, LangGraphIcon } from "./brand-icons";
 
 export const skillCategories = [
   {
@@ -163,7 +163,7 @@ export const skillCategories = [
       },
       {
         name: "AWS DynamoDB",
-        icon: <DatabaseZap className="w-5 h-5" />,
+        icon: <DynamoDbIcon className="w-5 h-5" />,
         color: "sapphire",
       },
     ],
@@ -216,7 +216,7 @@ export const skillCategories = [
       },
       {
         name: "LangGraph",
-        icon: <Workflow className="w-5 h-5" />,
+        icon: <LangGraphIcon className="w-5 h-5" />,
         color: "green",
       },
       {
@@ -236,7 +236,7 @@ export const skillCategories = [
       },
       {
         name: "AWS Bedrock",
-        icon: <FaAws className="w-5 h-5" />,
+        icon: <AwsBedrockIcon className="w-5 h-5" />,
         color: "peach",
       },
     ],
