@@ -4,6 +4,8 @@ import { FiPlay, FiX } from "react-icons/fi";
 import { useImageLoad } from "@/hooks/use-image-load";
 import { cn } from "@/lib/utils";
 
+import styles from "./markdown.module.css";
+
 /** Extract a YouTube video ID from common YouTube URL formats */
 function getYouTubeId(url: string): string | null {
   const patterns = [
@@ -72,7 +74,7 @@ export const MarkdownImage: React.FC<{ src?: string; alt?: string }> = ({
         </div>
       )}
 
-      <figure className="my-4 md:my-6">
+      <figure data-reveal="" className="my-4 md:my-6">
         {/* Skeleton shown until image loads */}
         {!loaded && !error && (
           <div className="w-full h-32 md:h-48 rounded-xl bg-ctp-surface0 border border-ctp-surface1 animate-pulse" />
@@ -83,7 +85,8 @@ export const MarkdownImage: React.FC<{ src?: string; alt?: string }> = ({
             className={cn(
               "flex justify-center rounded-xl border border-none p-2",
               "shadow-lg shadow-black/30 cursor-zoom-in bg-transparent",
-              !loaded ? "sr-only" : "animate-fadeIn [animation-duration:1.5s]"
+              // Develops once it is both loaded and scrolled into view
+              !loaded ? "sr-only" : styles.imageDevelop
             )}
             onClick={() => setLightbox(true)}
           >
@@ -122,7 +125,7 @@ const MarkdownYouTube: React.FC<{ id: string; title: string }> = ({
   const thumb = `https://img.youtube.com/vi/${id}/maxresdefault.jpg`;
 
   return (
-    <figure className="my-4 md:my-6">
+    <figure data-reveal="" className={`my-4 md:my-6 ${styles.mediaIn}`}>
       <div className="relative overflow-hidden rounded-xl border border-ctp-surface1 shadow-lg shadow-black/30">
         {!revealed ? (
           /* Thumbnail + play button */
@@ -171,7 +174,7 @@ const MarkdownVideo: React.FC<{ src: string; alt: string }> = ({
   src,
   alt,
 }) => (
-  <figure className="my-4 md:my-6">
+  <figure data-reveal="" className={`my-4 md:my-6 ${styles.mediaIn}`}>
     <div className="overflow-hidden rounded-xl border border-ctp-surface1 shadow-lg shadow-black/30 bg-black">
       <video
         src={src}

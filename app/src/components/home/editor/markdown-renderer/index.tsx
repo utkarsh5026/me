@@ -5,9 +5,11 @@ import rehypeRaw from "rehype-raw";
 import remarkGfm from "remark-gfm";
 
 import { Heading, Text } from "@/components/ui/text";
+import { useRevealOnScroll } from "@/hooks/use-reveal-on-scroll";
 import { parseMarkdownHeadings, useMarkdownHeadingStore } from "@/store";
 
 import { CodeBlock } from "./code-bock";
+import styles from "./markdown.module.css";
 import { MarkdownImage } from "./media";
 
 /** Slugify heading text into a stable DOM id. */
@@ -38,7 +40,12 @@ const markdownComponents: Components = {
   h1: ({ children }) => {
     const id = slugify(childrenToText(children));
     return (
-      <Heading as="h1" id={id} className="mt-14 mb-8 md-heading md-h1">
+      <Heading
+        as="h1"
+        id={id}
+        data-reveal=""
+        className={`mt-14 mb-8 md-heading md-h1 ${styles.headingIn}`}
+      >
         {children}
       </Heading>
     );
@@ -48,11 +55,18 @@ const markdownComponents: Components = {
     return (
       <div
         id={id}
-        className="group flex items-center gap-4 mt-14 mb-8 md-heading md-h2"
+        data-reveal=""
+        className={`group flex items-center gap-4 mt-14 mb-8 md-heading md-h2 ${styles.h2}`}
       >
-        <span className="w-1.5 h-8 rounded-full shrink-0 bg-gradient-to-b from-ctp-mauve to-ctp-blue shadow-lg shadow-ctp-mauve/20" />
-        <Heading as="h2">{children}</Heading>
-        <span className="flex-1 border-t border-ctp-surface1/60 ml-4 hidden md:block" />
+        <span
+          className={`w-1.5 h-8 rounded-full shrink-0 bg-gradient-to-b from-ctp-mauve to-ctp-blue shadow-lg shadow-ctp-mauve/20 ${styles.h2Bar}`}
+        />
+        <Heading as="h2" className={styles.h2Title}>
+          {children}
+        </Heading>
+        <span
+          className={`flex-1 border-t border-ctp-surface1/60 ml-4 hidden md:block ${styles.h2Rule}`}
+        />
       </div>
     );
   },
@@ -62,7 +76,8 @@ const markdownComponents: Components = {
       <Heading
         as="h3"
         id={id}
-        className="mt-10 mb-5 before:text-ctp-surface2 hover:before:text-ctp-mauve before:transition-colors before:duration-300 md-heading md-h3"
+        data-reveal=""
+        className={`mt-10 mb-5 before:text-ctp-surface2 hover:before:text-ctp-mauve before:transition-colors before:duration-300 md-heading md-h3 ${styles.headingIn}`}
       >
         {children}
       </Heading>
@@ -81,16 +96,28 @@ const markdownComponents: Components = {
   ),
 
   blockquote: ({ children }) => (
-    <blockquote className="relative flex border-l-[4px] border-ctp-mauve pl-6 my-10 bg-gradient-to-r from-ctp-surface0/50 to-transparent py-5 pr-6 rounded-2xl text-ctp-subtext0 italic text-lg shadow-sm">
+    <blockquote
+      data-reveal=""
+      className={`relative flex border-l-[4px] border-ctp-mauve pl-6 my-10 bg-gradient-to-r from-ctp-surface0/50 to-transparent py-5 pr-6 rounded-2xl text-ctp-subtext0 italic text-lg shadow-sm ${styles.quote}`}
+    >
       <div className="relative z-10">{children}</div>
     </blockquote>
   ),
 
   hr: () => (
-    <div className="my-14 flex items-center justify-center gap-3 opacity-80">
-      <span className="w-16 h-[1px] bg-gradient-to-r from-transparent to-ctp-surface2" />
-      <span className="w-2 h-2 rounded-full bg-ctp-surface2" />
-      <span className="w-16 h-[1px] bg-gradient-to-l from-transparent to-ctp-surface2" />
+    <div
+      data-reveal=""
+      className={`my-14 flex items-center justify-center gap-3 opacity-80 ${styles.rule}`}
+    >
+      <span
+        className={`w-16 h-[1px] bg-gradient-to-r from-transparent to-ctp-surface2 ${styles.ruleLeft}`}
+      />
+      <span
+        className={`w-2 h-2 rounded-full bg-ctp-surface2 ${styles.ruleDot}`}
+      />
+      <span
+        className={`w-16 h-[1px] bg-gradient-to-l from-transparent to-ctp-surface2 ${styles.ruleRight}`}
+      />
     </div>
   ),
 
@@ -130,7 +157,10 @@ const markdownComponents: Components = {
   },
 
   table: ({ children }) => (
-    <div className="my-10 w-full max-w-[85vw] md:max-w-none overflow-x-auto rounded-xl border border-ctp-surface1 shadow-lg bg-ctp-mantle/50 scrollbar-thin">
+    <div
+      data-reveal=""
+      className={`my-10 w-full max-w-[85vw] md:max-w-none overflow-x-auto rounded-xl border border-ctp-surface1 shadow-lg bg-ctp-mantle/50 scrollbar-thin ${styles.table}`}
+    >
       <table className="w-full text-base min-w-[max-content] md:min-w-full border-collapse">
         {children}
       </table>
@@ -186,6 +216,7 @@ interface MarkdownRenderProps {
 
 export const MarkdownRender: React.FC<MarkdownRenderProps> = ({ markdown }) => {
   const containerRef = useRef<HTMLDivElement>(null);
+  useRevealOnScroll(containerRef, markdown);
   const setActiveHeadings = useMarkdownHeadingStore((s) => s.setActiveHeadings);
   const setHeadingTree = useMarkdownHeadingStore((s) => s.setHeadingTree);
 
