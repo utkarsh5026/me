@@ -62,3 +62,125 @@
     transform: translateY(0);
   }
 }
+
+/* ─── Experience: "git diff" ─────────────────────────────────────────────────
+   Achievements enter like added lines in a diff: a green "+" in the gutter
+   and a highlight that sweeps across, then fades back to normal.
+   Gated on [data-inview] from the Achievements root; --i is the line index. */
+
+.diffHunk {
+  font-family: "Cascadia Code", monospace;
+  font-size: 0.75rem;
+  color: rgb(var(--ctp-overlay0));
+  opacity: 0;
+}
+
+[data-inview] .diffHunk {
+  animation: diffFadeIn 0.4s ease-out 0.1s forwards;
+}
+
+.diffLine {
+  position: relative;
+  border-radius: 0.75rem;
+  opacity: 0;
+}
+
+[data-inview] .diffLine {
+  opacity: 1;
+  animation: diffLineIn 0.45s cubic-bezier(0.2, 0.7, 0.2, 1) backwards;
+  animation-delay: calc(200ms + var(--i, 0) * 90ms);
+}
+
+.diffLine::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  border-left: 2px solid rgb(var(--ctp-green) / 0.7);
+  background: rgb(var(--ctp-green) / 0.1);
+  transform-origin: left;
+  pointer-events: none;
+  opacity: 0;
+}
+
+[data-inview] .diffLine::before {
+  animation: diffHighlight 1.6s ease-out both;
+  animation-delay: calc(200ms + var(--i, 0) * 90ms);
+}
+
+.diffGutter {
+  position: absolute;
+  top: 1rem;
+  left: 0.35rem;
+  z-index: 1;
+  font-family: "Cascadia Code", monospace;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: rgb(var(--ctp-green));
+  pointer-events: none;
+  opacity: 0;
+}
+
+[data-inview] .diffGutter {
+  animation: diffGutter 1.6s ease-out both;
+  animation-delay: calc(200ms + var(--i, 0) * 90ms);
+}
+
+@keyframes diffFadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes diffLineIn {
+  from {
+    opacity: 0;
+    transform: translateX(-6px);
+  }
+}
+
+@keyframes diffHighlight {
+  0% {
+    opacity: 1;
+    transform: scaleX(0);
+  }
+  25% {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scaleX(1);
+  }
+}
+
+@keyframes diffGutter {
+  0% {
+    opacity: 0;
+  }
+  15%,
+  70% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.35;
+  }
+}
+
+/* Tech badges pop in one after another. */
+.badgeIn {
+  opacity: 0;
+}
+
+[data-inview] .badgeIn {
+  opacity: 1;
+  animation: badgeIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) backwards;
+  animation-delay: calc(var(--i, 0) * 40ms);
+}
+
+@keyframes badgeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px) scale(0.94);
+  }
+}
