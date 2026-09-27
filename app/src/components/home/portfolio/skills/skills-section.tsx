@@ -1,14 +1,19 @@
 import { Sparkles } from "lucide-react";
+import { useRef } from "react";
 
 import { OutlineNode } from "@/components/home/editor/outline";
 import Section from "@/components/home/editor/section/portfolio-section";
 import QuoteBlock from "@/components/ui/quote-block";
+import { usePointerVars } from "@/hooks/use-pointer-vars";
 import type { AppColor } from "@/lib/ctp-colors";
 
 import { skillCategories } from "./data";
 import SkillCard from "./skill-card/skill-card";
 
 const SkillsSection: React.FC = () => {
+  const gridRef = useRef<HTMLDivElement>(null);
+  usePointerVars(gridRef, { selector: "[data-glow]" });
+
   return (
     <Section
       id="skills"
@@ -26,7 +31,10 @@ const SkillsSection: React.FC = () => {
           className="mb-6 sm:mb-8"
         />
         {/* Skills Grid */}
-        <div className="grid gap-3 sm:gap-4 lg:grid-cols-2 lg:gap-5">
+        <div
+          ref={gridRef}
+          className="grid gap-3 sm:gap-4 lg:grid-cols-2 lg:gap-5"
+        >
           {skillCategories.map((category, index) => (
             <OutlineNode
               key={category.id}
