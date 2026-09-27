@@ -1,12 +1,14 @@
-import React from "react";
+import React, { useRef } from "react";
 
 import Reveal from "@/components/animations/reveal/Reveal";
 import SketchBorder from "@/components/ui/sketch-border";
 import { Heading, Text } from "@/components/ui/text";
 import { useGitComponent } from "@/hooks/use-git-component";
 import useMobile from "@/hooks/use-mobile";
+import { usePointerVars } from "@/hooks/use-pointer-vars";
 import { cn } from "@/lib/utils";
 
+import styles from "./intro.module.css";
 import {
   MiniProjects,
   PersonalDescription,
@@ -18,7 +20,23 @@ import {
 import { TechSkills } from "./skills";
 import { Terminal } from "./terminal";
 
+/** One step of the hero's "boot sequence" stagger. */
+const BootItem: React.FC<{ step: number; children: React.ReactNode }> = ({
+  step,
+  children,
+}) => (
+  <div
+    className={styles.bootItem}
+    style={{ "--i": step } as React.CSSProperties}
+  >
+    {children}
+  </div>
+);
+
 const DesktopPersonalIntro: React.FC = () => {
+  const cardRef = useRef<HTMLDivElement>(null);
+  usePointerVars(cardRef);
+
   return (
     <>
       <div className="absolute inset-0 -z-20">
@@ -32,72 +50,68 @@ const DesktopPersonalIntro: React.FC = () => {
       </div>
 
       <div className="mx-auto max-w-7xl px-6 lg:px-8 py-6 md:py-12">
-        <Reveal effect="emerge" duration={0.9} delay={0.2} className="mb-10">
+        <div className={cn("mb-10", styles.bootCard)}>
           <SketchBorder
             primaryColor="mauve"
             secondaryColor="blue"
             tertiaryColor="green"
           >
             <div
+              ref={cardRef}
               className={cn(
-                "backdrop-blur-lg bg-gradient-to-b from-ctp-mantle to-ctp-crust rounded-2xl",
+                "relative backdrop-blur-lg bg-gradient-to-b from-ctp-mantle to-ctp-crust rounded-2xl",
                 "p-6 md:p-10 shadow-2xl overflow-hidden"
               )}
             >
+              {/* Cursor spotlight, driven by usePointerVars */}
+              <div aria-hidden="true" className={styles.spotlight} />
+
               <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 lg:gap-12 items-start relative z-10">
                 {/* Left Column - Main Content (3 columns) */}
                 <div className="lg:col-span-3 space-y-6">
-                  <Reveal effect="slide-in" direction="left">
+                  <BootItem step={0}>
                     <PersonalTitle />
-                  </Reveal>
+                  </BootItem>
 
-                  <Reveal effect="fade-up" delay={0.3}>
+                  <BootItem step={1}>
                     <PersonalDescription />
-                  </Reveal>
+                  </BootItem>
 
-                  <Reveal effect="fade-up" delay={0.5}>
+                  <BootItem step={2}>
                     <ProfileButtons />
-                  </Reveal>
+                  </BootItem>
 
-                  <Reveal effect="fade-up" delay={0.7}>
+                  <BootItem step={3}>
                     <MiniProjects />
-                  </Reveal>
+                  </BootItem>
 
-                  <Reveal effect="fade-up" delay={0.85}>
+                  <BootItem step={4}>
                     <RustFocus />
-                  </Reveal>
+                  </BootItem>
                 </div>
 
                 {/* Right Column - Visual Content (2 columns) */}
                 <div className="lg:col-span-2 h-full">
                   <div className="flex flex-col justify-start h-full gap-8">
-                    {/* Profile Picture */}
-                    <Reveal
-                      effect="ripple-in"
-                      direction="right"
-                      duration={1}
-                      delay={0.5}
-                    >
+                    <BootItem step={1}>
                       <ProfilePicture />
-                    </Reveal>
+                    </BootItem>
 
-                    {/* Terminal */}
-                    <Reveal effect="fold-unfold" delay={0.6}>
+                    <BootItem step={2}>
                       <Terminal />
-                    </Reveal>
+                    </BootItem>
 
-                    {/* Tech Skills */}
-                    <Reveal effect="fade-up" delay={0.8}>
+                    <BootItem step={3}>
                       <div className="border-t border-ctp-surface1/20 pt-6 mt-2">
                         <TechSkills />
                       </div>
-                    </Reveal>
+                    </BootItem>
                   </div>
                 </div>
               </div>
             </div>
           </SketchBorder>
-        </Reveal>
+        </div>
       </div>
     </>
   );
@@ -206,13 +220,9 @@ const PersonalIntro: React.FC = () => {
 
   return (
     <div ref={ref}>
-      <Reveal
-        effect="fade-up"
-        duration={0.7}
-        className="relative isolate min-h-screen overflow-hidden"
-      >
+      <div className="relative isolate min-h-screen overflow-hidden">
         {isMobile ? <MobilePersonalIntro /> : <DesktopPersonalIntro />}
-      </Reveal>
+      </div>
     </div>
   );
 };

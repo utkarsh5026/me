@@ -1,0 +1,52 @@
+/* Home — "boot sequence".
+   The hero card powers on, then its contents come up in a quick ordered
+   stagger (--i), while the name decodes via <ScrambleText>. */
+
+.bootCard {
+  animation: bootCard 0.5s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+@keyframes bootCard {
+  from {
+    opacity: 0;
+    transform: scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.bootItem {
+  animation: bootItem 0.45s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  animation-delay: calc(150ms + var(--i, 0) * 70ms);
+}
+
+@keyframes bootItem {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Soft glow that follows the cursor across the hero card. */
+.spotlight {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(
+    420px circle at var(--mx, 50%) var(--my, 50%),
+    rgb(var(--ctp-mauve) / 0.08),
+    transparent 60%
+  );
+  transition: opacity 0.4s ease;
+}
+
+[data-pointer-active] > .spotlight {
+  opacity: 1;
+}
