@@ -6,6 +6,36 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 /**
+ * Prefixes a root-relative public asset path with the app's base path, so it
+ * still resolves when the site is served from a subpath (e.g. GitHub Pages at
+ * `/me/`). Absolute and protocol-relative URLs are returned unchanged.
+ *
+ * @example
+ * withBase("/data/projects.json") // "/me/data/projects.json" when base is "/me/"
+ * withBase("https://example.com/a.png") // unchanged
+ */
+export function withBase(path: string): string {
+  if (!path.startsWith("/") || path.startsWith("//")) {
+    return path;
+  }
+  return `${import.meta.env.BASE_URL}${path.slice(1)}`;
+}
+
+/** Router basename derived from the app's base path (`"/me/"` → `"/me"`). */
+export const ROUTER_BASENAME = import.meta.env.BASE_URL.replace(/\/$/, "");
+
+/**
+ * Strips the app's base path from a raw `window.location.pathname`, giving
+ * the path the router sees (e.g. `"/me/about"` → `"/about"`).
+ */
+export function stripBase(pathname: string): string {
+  if (!pathname.startsWith(ROUTER_BASENAME)) {
+    return pathname;
+  }
+  return pathname.slice(ROUTER_BASENAME.length) || "/";
+}
+
+/**
  * Formats a UTC ISO date string as a human-readable relative time string.
  *
  * @param isoDate - A UTC ISO 8601 date string (e.g. `"2024-01-15T10:30:00Z"`),

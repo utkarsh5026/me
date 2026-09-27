@@ -1,5 +1,7 @@
 import { create } from "zustand";
 
+import { withBase } from "@/lib/utils";
+
 export interface DiffStat {
   added: number;
   deleted: number;
@@ -49,9 +51,9 @@ const useGitMetaStore = create<GitMetaState>((set, get) => ({
     set({ loading: true });
 
     try {
-      const data: GitMetaJson = await fetch("/data/git-meta.json").then((r) =>
-        r.json()
-      );
+      const data: GitMetaJson = await fetch(
+        withBase("/data/git-meta.json")
+      ).then((r) => r.json());
       // Inject the component name as a field so callers don't need the key
       Object.entries(data.components).forEach(([name, meta]) => {
         meta.name = name;

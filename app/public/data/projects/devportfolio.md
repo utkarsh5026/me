@@ -191,5 +191,5 @@ The Vite PWA plugin generates a Workbox service worker that pre-caches all stati
 
 ## Links
 
-- [GitHub — utkarsh5026/portfolio](https://github.com/utkarsh5026/portfolio)
-- [Live Portfolio — utkarsh5026.github.io](https://utkarsh5026.github.io/)
+- [GitHub — utkarsh5026/me](https://github.com/utkarsh5026/me)
+- [Live Portfolio — utkarsh5026.github.io/me](https://utkarsh5026.github.io/me/)

@@ -119,7 +119,7 @@ const GitBlamePortalTooltip: React.FC<GitBlamePortalTooltipProps> = ({
         <VscGitCommit className="w-3 h-3 text-ctp-green flex-shrink-0" />
         <span className="break-words leading-relaxed">{shortMsg}</span>
         <a
-          href={`https://github.com/utkarsh5026/portfolio/commit/${meta.hash}`}
+          href={`https://github.com/utkarsh5026/me/commit/${meta.hash}`}
           target="_blank"
           rel="noreferrer"
           onClick={(e) => e.stopPropagation()}

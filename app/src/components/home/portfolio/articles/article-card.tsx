@@ -3,7 +3,7 @@ import { ArrowUpRight } from "lucide-react";
 import Reveal from "@/components/animations/reveal/Reveal";
 import { useGitComponent } from "@/hooks/use-git-component";
 import { useImageLoad } from "@/hooks/use-image-load";
-import { cn } from "@/lib/utils";
+import { cn, withBase } from "@/lib/utils";
 
 import { articles } from "./articles-dump";
 
@@ -54,7 +54,7 @@ const ArticleCard: React.FC<ArticleCardProps> = ({ article, index }) => {
 
             {/* Image */}
             <img
-              src={article.imageUrl}
+              src={withBase(article.imageUrl)}
               alt={article.title}
               loading="lazy"
               {...imgProps}

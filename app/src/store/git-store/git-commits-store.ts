@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { useShallow } from "zustand/react/shallow";
 
-import { relativeTime } from "@/lib/utils";
+import { relativeTime, withBase } from "@/lib/utils";
 
 export interface GitCommit {
   hash: string;
@@ -57,7 +57,7 @@ const useGitCommitsStore = create<GitCommitsState>((set, get) => ({
     set({ loading: true });
 
     try {
-      const response = await fetch("/git-commits.json");
+      const response = await fetch(withBase("/git-commits.json"));
       const data: GitCommitsJson = await response.json();
 
       set({

@@ -25,6 +25,10 @@ jobs:
           # Without this, GitHub Actions only clones the latest commit (depth=1).
           fetch-depth: 0
 
+      - name: Setup Pages
+        id: pages
+        uses: actions/configure-pages@v5
+
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2
 
@@ -49,11 +53,28 @@ jobs:
       - name: Build
         working-directory: ./app
         env:
-          BASE_URL: "https://utkarsh5026.github.io"
+          # Project sites are served under /<repo>/ (e.g. /me/)
+          BASE_PATH: "${{ steps.pages.outputs.base_path }}/"
           NODE_ENV: "production"
         run: bun run build
+
+      # GitHub Pages has no SPA rewrites; serving index.html as the 404 page
+      # lets deep links like /me/projects/<slug> load the app.
+      - name: Add SPA fallback
+        run: cp app/dist/index.html app/dist/404.html
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: ./app/dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

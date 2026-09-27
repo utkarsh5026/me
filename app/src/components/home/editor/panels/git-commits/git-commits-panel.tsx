@@ -138,7 +138,7 @@ const GitCommitsPanel: React.FC<GitCommitsPanelProps> = ({ open, onClose }) => {
             renderCommit={(commit, i) => (
               <CommitRow
                 commit={{
-                  url: `https://github.com/utkarsh5026/portfolio/commit/${commit.hash}`,
+                  url: `https://github.com/utkarsh5026/me/commit/${commit.hash}`,
                   ...commit,
                 }}
                 index={i}
@@ -163,7 +163,7 @@ const GitCommitsPanel: React.FC<GitCommitsPanelProps> = ({ open, onClose }) => {
 
       <div className="flex-shrink-0 px-4 py-2 border-t border-ctp-surface0 bg-ctp-base/60">
         <p className="text-[9px] text-ctp-overlay0 text-center tracking-wider">
-          utkarsh5026/portfolio
+          utkarsh5026/me
         </p>
       </div>
     </PanelShell>

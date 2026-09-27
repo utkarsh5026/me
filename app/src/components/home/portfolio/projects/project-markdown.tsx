@@ -10,7 +10,7 @@ import { useGitComponent } from "@/hooks/use-git-component";
 import { useMarkdownOutlineBridge } from "@/hooks/use-markdown-outline-bridge";
 import useMobile from "@/hooks/use-mobile";
 import { useSwipe } from "@/hooks/use-swipe";
-import { cn } from "@/lib/utils";
+import { cn, withBase } from "@/lib/utils";
 import { useMarkdownHeadingStore } from "@/store";
 import useProjectStore from "@/store/projects/projects-store";
 import { getProjectSlug } from "@/utils/project-slug";
@@ -54,7 +54,7 @@ const CoverBand: React.FC<{ coverImage?: string; name: string }> = ({
     return (
       <div className="relative w-full h-44 overflow-hidden rounded-t-xl">
         <img
-          src={coverImage}
+          src={withBase(coverImage)}
           alt={`${name} cover`}
           className="absolute inset-0 w-full h-full object-cover"
         />

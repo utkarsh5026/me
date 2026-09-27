@@ -50,7 +50,8 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
-  base: "/",
+  // GitHub Pages serves this as a project site under /<repo>/; set BASE_PATH there.
+  base: process.env.BASE_PATH || "/",
   build: {
     sourcemap: process.env.NODE_ENV === "development",
     chunkSizeWarningLimit: 500,
