@@ -4,7 +4,7 @@ import React from "react";
 import { OutlineNode } from "@/components/home/editor/outline";
 import { Heading, Text } from "@/components/ui/text";
 import { useGitComponent } from "@/hooks/use-git-component";
-import { cn } from "@/lib/utils";
+import { cn, withBase } from "@/lib/utils";
 
 const contacts = [
   {
@@ -56,7 +56,7 @@ const ResumeHeader: React.FC = () => {
           </div>
 
           <a
-            href="/resume.pdf"
+            href={withBase("/resume.pdf")}
             download
             className={cn(
               "inline-flex items-center gap-2 self-start px-4 py-2 rounded-md",

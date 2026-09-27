@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { useShallow } from "zustand/react/shallow";
 
-import { relativeTime } from "@/lib/utils";
+import { relativeTime, withBase } from "@/lib/utils";
 
 export interface ActivityCommit {
   hash: string;
@@ -106,7 +106,7 @@ const useActivityStore = create<ActivityState>((set, get) => ({
 
     try {
       const data: ActivityFeedJson = await fetch(
-        "/data/activity-feed.json"
+        withBase("/data/activity-feed.json")
       ).then((r) => {
         if (!r.ok) throw new Error(`HTTP ${r.status}`);
         return r.json();

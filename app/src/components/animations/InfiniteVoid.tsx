@@ -1,6 +1,8 @@
 import anime from "animejs";
 import React, { memo, useEffect, useRef, useState } from "react";
 
+import { withBase } from "@/lib/utils";
+
 import Logo from "../home/appbar/Logo";
 
 interface DomainExpansionProps {
@@ -104,7 +106,7 @@ const InfiniteVoid: React.FC<DomainExpansionProps> = memo(
             gojoFlash: createElement(
               "absolute inset-0",
               {
-                backgroundImage: "url('/gojo.jpg')",
+                backgroundImage: `url('${withBase("/gojo.jpg")}')`,
                 backgroundSize: "cover",
                 backgroundPosition: "center",
                 opacity: "0",
@@ -227,7 +229,7 @@ const InfiniteVoid: React.FC<DomainExpansionProps> = memo(
             const img = new Image();
             img.onload = resolve;
             img.onerror = reject;
-            img.src = "/gojo.jpg";
+            img.src = withBase("/gojo.jpg");
           });
         } catch (error) {
           console.error("Animation setup failed:", error);

@@ -1,6 +1,7 @@
 import { create } from "zustand";
 
 import type { SectionType } from "@/components/home/editor/context/editor-store";
+import { withBase } from "@/lib/utils";
 
 export interface SectionGitStats {
   lastCommitHash: string;
@@ -41,7 +42,7 @@ const useGitStore = create<GitState>((set, get) => ({
     set({ loading: true });
 
     try {
-      const response = await fetch("/git-stats.json");
+      const response = await fetch(withBase("/git-stats.json"));
       const data: GitStatsJson = await response.json();
       set({ stats: data, loading: false });
     } catch {

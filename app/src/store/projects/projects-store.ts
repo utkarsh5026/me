@@ -1,5 +1,6 @@
 import { create } from "zustand";
 
+import { withBase } from "@/lib/utils";
 import type { Project } from "@/types";
 import { getProjectSlug } from "@/utils/project-slug";
 
@@ -49,7 +50,7 @@ const useProjectStore = create<ProjectState>((set, get) => ({
     try {
       set({ isLoading: true, error: null });
 
-      const response = await fetch("/data/projects.json");
+      const response = await fetch(withBase("/data/projects.json"));
 
       if (!response.ok) {
         throw new Error(
@@ -94,7 +95,7 @@ const useProjectStore = create<ProjectState>((set, get) => ({
       markdownStates: { ...s.markdownStates, [slug]: "loading" },
     }));
 
-    fetch(`/data/projects/${slug}.md`)
+    fetch(withBase(`/data/projects/${slug}.md`))
       .then((res) => {
         if (!res.ok) throw new Error(`${res.status}`);
         const ct = res.headers.get("content-type") ?? "";

@@ -2,6 +2,7 @@ import type { NavigateFunction } from "react-router-dom";
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 
+import { stripBase } from "@/lib/utils";
 import type { Project } from "@/types";
 import {
   getProjectFileName,
@@ -155,7 +156,7 @@ export type EditorStore = EditorState & EditorActions;
 
 const initialSection: SectionType =
   typeof window !== "undefined"
-    ? getSectionFromPath(window.location.pathname)
+    ? getSectionFromPath(stripBase(window.location.pathname))
     : "home";
 
 export const useEditorStore = create<EditorStore>()(
@@ -167,7 +168,9 @@ export const useEditorStore = create<EditorStore>()(
       explorerOpen: true,
       terminalOpen: false,
       pendingProjectSlug: getProjectSlugFromPath(
-        typeof window !== "undefined" ? window.location.pathname : "/"
+        typeof window !== "undefined"
+          ? stripBase(window.location.pathname)
+          : "/"
       ),
 
       openTab: (tab, navigate, currentPath) => {
