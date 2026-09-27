@@ -10,7 +10,7 @@ const ResumeSkills: React.FC = () => {
   const ref = useGitComponent(ResumeSkills);
 
   return (
-    <div ref={ref} className="animate-fadeIn">
+    <div ref={ref}>
       <OutlineNode
         label="Skills"
         icon={<Terminal className="w-3 h-3" />}

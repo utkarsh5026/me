@@ -6,6 +6,8 @@ import { Heading, Text } from "@/components/ui/text";
 import { useGitComponent } from "@/hooks/use-git-component";
 import { cn, withBase } from "@/lib/utils";
 
+import styles from "./resume.module.css";
+
 const contacts = [
   {
     icon: Mail,
@@ -33,10 +35,7 @@ const ResumeHeader: React.FC = () => {
   const ref = useGitComponent(ResumeHeader);
 
   return (
-    <div
-      ref={ref}
-      className="border-b border-ctp-surface1 pb-6 mb-6 animate-fadeIn"
-    >
+    <div ref={ref} className="border-b border-ctp-surface1 pb-6 mb-6">
       <OutlineNode
         label="Profile"
         icon={<User className="w-3 h-3" />}
@@ -62,10 +61,11 @@ const ResumeHeader: React.FC = () => {
               "inline-flex items-center gap-2 self-start px-4 py-2 rounded-md",
               "bg-transparent border border-ctp-surface2",
               "text-ctp-text hover:bg-ctp-surface0 hover:border-ctp-overlay0 transition-all duration-200",
-              "text-sm  font-medium"
+              "text-sm  font-medium",
+              styles.download
             )}
           >
-            <Download className="w-4 h-4" />
+            <Download className={cn("w-4 h-4", styles.downloadIcon)} />
             Download PDF
           </a>
         </div>
