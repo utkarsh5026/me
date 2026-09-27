@@ -2,13 +2,13 @@
 
 **_A VS Code–inspired developer portfolio. Built to impress. Crafted to perform._**
 
-[![Live Site](https://img.shields.io/badge/Live%20Site-Visit-6c91c3?style=for-the-badge&logo=github-pages&logoColor=white)](https://utkarsh5026.github.io/)
+[![Live Site](https://img.shields.io/badge/Live%20Site-Visit-6c91c3?style=for-the-badge&logo=github-pages&logoColor=white)](https://utkarsh5026.github.io/me/)
 [![React](https://img.shields.io/badge/React-18.3-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://reactjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![Vite](https://img.shields.io/badge/Vite-5.x-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-3.x-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge)](LICENSE)
-[![PRs Welcome](https://img.shields.io/badge/PRs-Welcome-brightgreen?style=for-the-badge)](https://github.com/utkarsh5026/portfolio/pulls)
+[![PRs Welcome](https://img.shields.io/badge/PRs-Welcome-brightgreen?style=for-the-badge)](https://github.com/utkarsh5026/me/pulls)
 [![PWA Ready](https://img.shields.io/badge/PWA-Ready-5A0FC8?style=for-the-badge&logo=pwa&logoColor=white)](https://web.dev/progressive-web-apps/)
 
 ---
@@ -187,8 +187,8 @@ The git panels read JSON generated from the repo's history at build time. These 
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/utkarsh5026/portfolio.git
-cd portfolio
+git clone https://github.com/utkarsh5026/me.git
+cd me
 
 # 2. Navigate to the app directory
 cd app
@@ -320,7 +320,7 @@ Editing these updates both the sections and the terminal commands. No component 
 - [ ] Blog/article detail pages with full markdown rendering
 - [ ] Full WCAG 2.1 AA accessibility audit
 
-> Have an idea? [Open an issue](https://github.com/utkarsh5026/portfolio/issues) or [start a discussion](https://github.com/utkarsh5026/portfolio/discussions)!
+> Have an idea? [Open an issue](https://github.com/utkarsh5026/me/issues) or [start a discussion](https://github.com/utkarsh5026/me/discussions)!
 
 ---
 
@@ -386,13 +386,13 @@ See [`LICENSE`](LICENSE) for full details.
 
 | Platform           | Link                                                                              |
 | :----------------- | :-------------------------------------------------------------------------------- |
-| 🌐 **Portfolio**   | [utkarsh5026.github.io](https://utkarsh5026.github.io/)                           |
+| 🌐 **Portfolio**   | [utkarsh5026.github.io/me](https://utkarsh5026.github.io/me/)                           |
 | 🐙 **GitHub**      | [@utkarsh5026](https://github.com/utkarsh5026)                                    |
 | 💼 **LinkedIn**    | [Utkarsh Priyadarshi](https://www.linkedin.com/in/utkarsh-priyadarshi-8b5a731b9/) |
 | 🐦 **Twitter / X** | [@UtkarshPriyad10](https://x.com/UtkarshPriyad10)                                 |
 | 📧 **Email**       | [utkarshpriyadarshi5026@gmail.com](mailto:utkarshpriyadarshi5026@gmail.com)       |
 
-> Found a bug or have a suggestion? [Open an issue](https://github.com/utkarsh5026/portfolio/issues) — I'd love to hear from you.
+> Found a bug or have a suggestion? [Open an issue](https://github.com/utkarsh5026/me/issues) — I'd love to hear from you.
 
 ---
 
