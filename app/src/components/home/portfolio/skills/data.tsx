@@ -1,5 +1,14 @@
-import { Code2, Database, Layers, Server } from "lucide-react";
-import { FaJava, FaTools } from "react-icons/fa";
+import {
+  Bot,
+  BrainCircuit,
+  Code2,
+  Database,
+  FileSearch,
+  Layers,
+  Server,
+  Waypoints,
+} from "lucide-react";
+import { FaAws, FaJava, FaTools } from "react-icons/fa";
 import {
   SiDjango,
   SiDocker,
@@ -12,16 +21,20 @@ import {
   SiJavascript,
   SiJenkins,
   SiKubernetes,
+  SiLangchain,
   SiMongodb,
   SiNextdotjs,
   SiPostgresql,
   SiPython,
   SiReact,
   SiRedis,
+  SiRust,
   SiSqlite,
   SiTailwindcss,
   SiTypescript,
 } from "react-icons/si";
+
+import { AwsBedrockIcon, DynamoDbIcon, LangGraphIcon } from "./brand-icons";
 
 export const skillCategories = [
   {
@@ -55,6 +68,11 @@ export const skillCategories = [
         name: "Go",
         icon: <SiGo className="w-5 h-5" />,
         color: "teal",
+      },
+      {
+        name: "Rust",
+        icon: <SiRust className="w-5 h-5" />,
+        color: "peach",
       },
     ],
   },
@@ -143,6 +161,11 @@ export const skillCategories = [
         icon: <SiSqlite className="w-5 h-5" />,
         color: "blue",
       },
+      {
+        name: "AWS DynamoDB",
+        icon: <DynamoDbIcon className="w-5 h-5" />,
+        color: "sapphire",
+      },
     ],
   },
   {
@@ -172,13 +195,72 @@ export const skillCategories = [
         icon: <SiJenkins className="w-5 h-5" />,
         color: "text",
       },
+      {
+        name: "AWS",
+        icon: <FaAws className="w-5 h-5" />,
+        color: "peach",
+      },
+    ],
+  },
+  {
+    id: "ai",
+    title: "AI & LLMs",
+    icon: <BrainCircuit className="w-5 h-5" />,
+    color: "pink",
+    description: "LLM apps, retrieval & orchestration",
+    skills: [
+      {
+        name: "LangChain",
+        icon: <SiLangchain className="w-5 h-5" />,
+        color: "teal",
+      },
+      {
+        name: "LangGraph",
+        icon: <LangGraphIcon className="w-5 h-5" />,
+        color: "green",
+      },
+      {
+        name: "Deep Agents",
+        icon: <Bot className="w-5 h-5" />,
+        color: "sapphire",
+      },
+      {
+        name: "RAG",
+        icon: <FileSearch className="w-5 h-5" />,
+        color: "mauve",
+      },
+      {
+        name: "FAISS",
+        icon: <Waypoints className="w-5 h-5" />,
+        color: "blue",
+      },
+      {
+        name: "AWS Bedrock",
+        icon: <AwsBedrockIcon className="w-5 h-5" />,
+        color: "peach",
+      },
     ],
   },
 ];
 
-export const databases = ["PostgreSQL", "MongoDB", "Redis", "SQLite"] as const;
+export const databases = [
+  "PostgreSQL",
+  "MongoDB",
+  "Redis",
+  "SQLite",
+  "AWS DynamoDB",
+] as const;
 
-export const tools = ["Jenkins", "Git", "Kubernetes", "Docker"] as const;
+export const tools = ["Jenkins", "Git", "Kubernetes", "Docker", "AWS"] as const;
+
+export const ai = [
+  "LangChain",
+  "LangGraph",
+  "Deep Agents",
+  "RAG",
+  "FAISS",
+  "AWS Bedrock",
+] as const;
 
 export const languages = [
   "JavaScript",
@@ -186,6 +268,7 @@ export const languages = [
   "Python",
   "Java",
   "Go",
+  "Rust",
 ] as const;
 
 export const frameworks = [

@@ -1,0 +1,129 @@
+/* Deep-dive markdown: "reading mode".
+   Structural blocks (headings, code, media, quotes, tables, rules) play a
+   one-shot entrance the first time they scroll into view. Paragraphs and
+   lists are never animated, so reading never waits on motion.
+   Driven by useRevealOnScroll (data-reveal → data-inview). */
+
+/* Hide not-yet-seen blocks only while the observer is running. */
+[data-reveal-ready] [data-reveal]:not([data-inview]) {
+  opacity: 0;
+}
+
+/* h2: accent bar grows, title slides in, rule draws toward the edge */
+.h2[data-inview] .h2Bar {
+  transform-origin: bottom;
+  animation: mdBarGrow 0.5s cubic-bezier(0.2, 0.7, 0.2, 1) backwards;
+}
+
+.h2[data-inview] .h2Title {
+  animation: mdSlideIn 0.5s cubic-bezier(0.2, 0.7, 0.2, 1) 80ms backwards;
+}
+
+.h2[data-inview] .h2Rule {
+  transform-origin: left;
+  animation: mdRuleDraw 0.8s ease-out 0.2s backwards;
+}
+
+/* h1 / h3 */
+.headingIn[data-inview] {
+  animation: mdSlideIn 0.45s cubic-bezier(0.2, 0.7, 0.2, 1) backwards;
+}
+
+/* Code blocks open top → bottom, like a file being written out. */
+.codeBlock[data-inview] {
+  animation: mdCodeOpen 0.55s cubic-bezier(0.45, 0, 0.25, 1) backwards;
+}
+
+/* Images develop from dim and soft to crisp; video/embeds just rise. */
+[data-inview] .imageDevelop {
+  animation: mdDevelop 0.9s ease-out backwards;
+}
+
+.mediaIn[data-inview] {
+  animation: mdRise 0.5s ease-out backwards;
+}
+
+.quote[data-inview] {
+  animation: mdQuote 0.55s cubic-bezier(0.2, 0.7, 0.2, 1) backwards;
+}
+
+.table[data-inview] {
+  animation: mdRise 0.5s ease-out backwards;
+}
+
+/* Horizontal rule: the dot pops, the lines extend outward from it */
+.rule[data-inview] .ruleLeft,
+.rule[data-inview] .ruleRight {
+  animation: mdRuleDraw 0.6s ease-out 0.1s backwards;
+}
+
+.ruleLeft {
+  transform-origin: right;
+}
+
+.ruleRight {
+  transform-origin: left;
+}
+
+.rule[data-inview] .ruleDot {
+  animation: mdDotPop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) backwards;
+}
+
+@keyframes mdBarGrow {
+  from {
+    transform: scaleY(0);
+  }
+}
+
+@keyframes mdSlideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+}
+
+@keyframes mdRuleDraw {
+  from {
+    transform: scaleX(0);
+  }
+}
+
+@keyframes mdCodeOpen {
+  from {
+    opacity: 0.4;
+    clip-path: inset(0 0 100% 0);
+  }
+  to {
+    opacity: 1;
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+@keyframes mdDevelop {
+  from {
+    opacity: 0;
+    filter: blur(4px) saturate(0.3) brightness(0.7);
+    transform: scale(1.02);
+  }
+}
+
+@keyframes mdRise {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
+
+@keyframes mdQuote {
+  from {
+    opacity: 0;
+    transform: translateX(-12px);
+    border-left-color: transparent;
+  }
+}
+
+@keyframes mdDotPop {
+  from {
+    transform: scale(0);
+  }
+}

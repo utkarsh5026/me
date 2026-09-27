@@ -1,0 +1,140 @@
+/* Skills — "npm install".
+   Each card unrolls, its chips "install" in a wave while the header status
+   flips from resolving… to a counted "added N packages". Borders near the
+   cursor glow in the card's accent (grid-wide, via usePointerVars selector).
+   --card: card index, --i: chip index, --accent: category color triplet. */
+
+.card {
+  --d: calc(var(--card, 0) * 80ms);
+  opacity: 0;
+}
+
+.card[data-inview] {
+  opacity: 1;
+  animation: cardUnroll 0.5s cubic-bezier(0.2, 0.7, 0.2, 1) backwards;
+  animation-delay: var(--d);
+}
+
+@keyframes cardUnroll {
+  from {
+    opacity: 0;
+    clip-path: inset(0 0 100% 0);
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    clip-path: inset(0 0 0 0);
+    transform: none;
+  }
+}
+
+/* Chips land one after another. */
+.chip {
+  opacity: 0;
+}
+
+[data-inview] .chip {
+  opacity: 1;
+  animation: chipLand 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) backwards;
+  animation-delay: calc(var(--d) + 200ms + var(--i, 0) * 40ms);
+}
+
+[data-inview] .chipIcon {
+  animation: chipTick 0.3s ease-out backwards;
+  animation-delay: calc(var(--d) + 380ms + var(--i, 0) * 40ms);
+}
+
+@keyframes chipLand {
+  from {
+    opacity: 0;
+    transform: translateY(6px) scale(0.96);
+  }
+}
+
+@keyframes chipTick {
+  50% {
+    transform: scale(1.25) rotate(-8deg);
+  }
+}
+
+/* Header status line */
+.status {
+  display: none;
+  position: relative;
+  flex-shrink: 0;
+  align-self: flex-start;
+  font-family: "Cascadia Code", monospace;
+  font-size: 0.6875rem;
+  color: rgb(var(--ctp-overlay1));
+  white-space: nowrap;
+}
+
+@media (min-width: 640px) {
+  .status {
+    display: grid;
+  }
+}
+
+.statusPending,
+.statusDone {
+  grid-area: 1 / 1;
+  justify-self: end;
+}
+
+.statusDone {
+  opacity: 0;
+}
+
+[data-inview] .statusPending {
+  animation: statusOut 0.2s ease-out forwards;
+  animation-delay: calc(var(--d) + 350ms);
+}
+
+[data-inview] .statusDone {
+  animation: statusIn 0.25s ease-out forwards;
+  animation-delay: calc(var(--d) + 350ms);
+}
+
+@keyframes statusOut {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes statusIn {
+  from {
+    opacity: 0;
+    transform: translateY(3px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Grid-wide border glow following the cursor. */
+.card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  padding: 1px;
+  border-radius: inherit;
+  background: radial-gradient(
+    320px circle at var(--mx, -999px) var(--my, -999px),
+    rgb(var(--accent) / 0.5),
+    transparent 60%
+  );
+  -webkit-mask:
+    linear-gradient(black 0 0) content-box,
+    linear-gradient(black 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+[data-pointer-active] .card::before {
+  opacity: 1;
+}

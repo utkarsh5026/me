@@ -8,6 +8,8 @@ interface SettingsState {
   toggleGitBlame: () => void;
   flavor: CatppuccinFlavor;
   setFlavor: (flavor: CatppuccinFlavor) => void;
+  reducedMotion: boolean;
+  toggleReducedMotion: () => void;
 }
 
 const useSettingsStore = create<SettingsState>()(
@@ -17,6 +19,8 @@ const useSettingsStore = create<SettingsState>()(
       toggleGitBlame: () => set({ gitBlameEnabled: !get().gitBlameEnabled }),
       flavor: "mocha",
       setFlavor: (flavor) => set({ flavor }),
+      reducedMotion: false,
+      toggleReducedMotion: () => set({ reducedMotion: !get().reducedMotion }),
     }),
     { name: "portfolio-settings" }
   )

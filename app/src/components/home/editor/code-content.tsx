@@ -1,4 +1,4 @@
-import { lazy, Suspense, useRef } from "react";
+import { lazy, Suspense, useRef, useState } from "react";
 
 import { useSectionNav } from "@/hooks/use-editor-actions";
 import useMobile from "@/hooks/use-mobile";
@@ -72,6 +72,18 @@ const CodeContent: React.FC<CodeContentProps> = ({ sections }) => {
   const { isMobile } = useMobile();
 
   const currentSectionIndex = sectionList.indexOf(activeSection);
+
+  // Slide the incoming section in from the side of the tab bar it lives on.
+  const [prevSection, setPrevSection] = useState(activeSection);
+  const [enterClass, setEnterClass] = useState(styles.fadeIn);
+  if (activeSection !== prevSection) {
+    setPrevSection(activeSection);
+    setEnterClass(
+      currentSectionIndex > sectionList.indexOf(prevSection)
+        ? styles.slideFromRight
+        : styles.slideFromLeft
+    );
+  }
   const sectionSwipeHandlers = useSwipe({
     disabled: !isMobile || activeProjectId !== null,
     onSwipeLeft: () => {
@@ -110,7 +122,7 @@ const CodeContent: React.FC<CodeContentProps> = ({ sections }) => {
       <Suspense fallback={<SectionLoadingScreen section={activeSection} />}>
         <div
           key={activeSection}
-          className={`min-h-[calc(100vh-8rem)] sm:min-h-[calc(100vh-10rem)] flex ${styles.fadeIn}`}
+          className={`min-h-[calc(100vh-8rem)] sm:min-h-[calc(100vh-10rem)] flex ${enterClass}`}
           {...sectionSwipeHandlers}
         >
           <div

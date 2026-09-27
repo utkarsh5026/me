@@ -9,3 +9,99 @@
 .arrowGroup:hover .arrowHover {
   transform: translateX(4px);
 }
+
+/* ─── Learning: "loop completes" ─────────────────────────────────────────────
+   Each card's outline traces a full 360° sweep in its category color (a
+   progress ring closing), then settles to a faint accent border.
+   --accent comes from the category block, --i is the card index. */
+
+.learningCard {
+  opacity: 0;
+}
+
+.learningCard[data-inview] {
+  opacity: 1;
+  animation: learnIn 0.45s cubic-bezier(0.2, 0.7, 0.2, 1) backwards;
+  animation-delay: calc(var(--i, 0) * 90ms);
+}
+
+@keyframes learnIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+
+.traceRing::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  padding: 1.5px;
+  border-radius: inherit;
+  background: conic-gradient(
+    from 0deg,
+    rgb(var(--accent)) var(--trace-angle),
+    transparent var(--trace-angle)
+  );
+  -webkit-mask:
+    linear-gradient(black 0 0) content-box,
+    linear-gradient(black 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  opacity: 0;
+}
+
+[data-inview] .traceRing::before {
+  animation: traceLoop 1.3s cubic-bezier(0.45, 0, 0.25, 1) forwards;
+  animation-delay: calc(150ms + var(--i, 0) * 90ms);
+}
+
+@keyframes traceLoop {
+  0% {
+    --trace-angle: 0deg;
+    opacity: 0.9;
+  }
+  75% {
+    --trace-angle: 360deg;
+    opacity: 0.9;
+  }
+  100% {
+    --trace-angle: 360deg;
+    opacity: 0.25;
+  }
+}
+
+/* Category header: fades in, its dot pulses once. */
+[data-inview] .categoryHeader {
+  animation: learnIn 0.4s ease-out backwards;
+}
+
+.categoryDot {
+  position: relative;
+}
+
+.categoryDot::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: rgb(var(--accent));
+  opacity: 0;
+  pointer-events: none;
+}
+
+[data-inview] .categoryDot::after {
+  animation: dotPulse 0.8s ease-out 0.2s;
+}
+
+@keyframes dotPulse {
+  from {
+    opacity: 0.7;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(3);
+  }
+}

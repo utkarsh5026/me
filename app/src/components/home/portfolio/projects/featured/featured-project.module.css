@@ -29,17 +29,195 @@
   }
 }
 
-.lineGrow {
-  animation: lineEntrance 0.8s ease 0.2s forwards;
-  /* Equivalent to initial={{ scaleX: 0, opacity: 0 }} */
+/* ─── Featured project: "CI pipeline → ship" ────────────────────────────────
+   Stages pass one after another once the FeaturedProject root gets
+   [data-inview]; when "deploy" lands the card emits a single glow ring.
+   Timeline: stage i passes at 350ms + i * 220ms (deploy ≈ 1010ms). */
+
+.pipeline {
+  display: flex;
+  flex: 1 1 auto;
+  align-items: center;
+  gap: 0.375rem;
+  min-width: 0;
+  font-family: "Cascadia Code", monospace;
+}
+
+.pipeLink,
+.pipeTail {
+  position: relative;
+  height: 1px;
+  background: rgb(var(--ctp-surface1) / 0.6);
+  overflow: hidden;
+}
+
+.pipeLink {
+  flex: 1 1 0.75rem;
+  min-width: 0.5rem;
+  max-width: 3rem;
+}
+
+.pipeTail {
+  flex: 3 1 1rem;
+  background: none;
+}
+
+.pipeLink::after,
+.pipeTail::after {
+  content: "";
+  position: absolute;
+  inset: 0;
   transform: scaleX(0);
-  opacity: 0;
   transform-origin: left;
 }
 
-@keyframes lineEntrance {
+.pipeLink::after {
+  background: rgb(var(--ctp-green));
+}
+
+.pipeTail::after {
+  background: linear-gradient(90deg, rgb(var(--ctp-peach) / 0.5), transparent);
+}
+
+[data-inview] .pipeLink::after {
+  animation: pipeFill 0.22s linear both;
+  animation-delay: calc(130ms + var(--i, 0) * 220ms);
+}
+
+[data-inview] .pipeTail::after {
+  animation: pipeFill 0.6s ease-out 1.01s both;
+}
+
+@keyframes pipeFill {
   to {
     transform: scaleX(1);
+  }
+}
+
+.pipeStage {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 0.375rem;
+}
+
+.pipeDot {
+  display: grid;
+  place-items: center;
+  width: 1rem;
+  height: 1rem;
+  border-radius: 9999px;
+  border: 1px solid rgb(var(--ctp-surface2));
+  background: rgb(var(--ctp-crust));
+}
+
+.pipeCheck {
+  width: 0.5rem;
+  height: 0.5rem;
+  color: rgb(var(--ctp-green));
+  opacity: 0;
+  transform: scale(0.4);
+}
+
+.pipeLabel {
+  display: none;
+  font-size: 0.625rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgb(var(--ctp-overlay0));
+}
+
+@media (min-width: 640px) {
+  .pipeLabel {
+    display: inline;
+  }
+}
+
+[data-inview] .pipeDot {
+  animation: pipeDotPass 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  animation-delay: calc(350ms + var(--i, 0) * 220ms);
+}
+
+[data-inview] .pipeCheck {
+  animation: pipeCheckPop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  animation-delay: calc(380ms + var(--i, 0) * 220ms);
+}
+
+[data-inview] .pipeLabel {
+  animation: pipeLabelPass 0.3s ease-out both;
+  animation-delay: calc(350ms + var(--i, 0) * 220ms);
+}
+
+@keyframes pipeDotPass {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.25);
+  }
+  100% {
+    transform: scale(1);
+    border-color: rgb(var(--ctp-green));
+    background: rgb(var(--ctp-green) / 0.15);
+  }
+}
+
+@keyframes pipeCheckPop {
+  to {
     opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes pipeLabelPass {
+  to {
+    color: rgb(var(--ctp-subtext0));
+  }
+}
+
+/* Featured card entrance + the "shipped" ring */
+.cardEnter {
+  animation: cardEnter 0.5s cubic-bezier(0.2, 0.7, 0.2, 1) 0.1s both;
+}
+
+@keyframes cardEnter {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.shipRing {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border-radius: 0.75rem;
+  pointer-events: none;
+  opacity: 0;
+}
+
+[data-inview] .shipRing {
+  animation: shipRing 1.4s ease-out 1.05s both;
+}
+
+@keyframes shipRing {
+  0% {
+    opacity: 0;
+    box-shadow:
+      0 0 0 0 rgb(var(--ctp-peach) / 0.5),
+      0 0 0 0 rgb(var(--ctp-peach) / 0.25);
+  }
+  20% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    box-shadow:
+      0 0 0 10px rgb(var(--ctp-peach) / 0),
+      0 0 48px 8px rgb(var(--ctp-peach) / 0);
   }
 }

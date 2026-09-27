@@ -2,9 +2,26 @@ import React, { useEffect, useState } from "react";
 
 import { useGitComponent } from "@/hooks/use-git-component";
 
+/**
+ * Shown while the photo loads, each one more apologetic than the last.
+ * The final message stays up if the image still hasn't arrived.
+ */
+const LOADING_MESSAGES = [
+  { text: "Wait I am coming", emoji: "🏃‍♂️💨" },
+  { text: "Almost there, tying my shoes", emoji: "👟" },
+  { text: "Sorry, slow Wi-Fi on my end", emoji: "😅" },
+  { text: "Really sorry, nearly there!", emoji: "🙏" },
+  { text: "So sorry, I promise I'm worth the wait", emoji: "🥺" },
+  { text: "This is embarrassing… please don't leave", emoji: "😭" },
+  { text: "I have failed you. Deeply sorry", emoji: "🙇‍♂️" },
+] as const;
+
+const MESSAGE_INTERVAL_MS = 3000;
+
 const ProfileAvatar: React.FC = () => {
   const ref = useGitComponent(ProfileAvatar);
   const [highResLoaded, setHighResLoaded] = useState(false);
+  const [messageIndex, setMessageIndex] = useState(0);
 
   useEffect(() => {
     const highQualityImage = new Image();
@@ -14,6 +31,18 @@ const ProfileAvatar: React.FC = () => {
       setHighResLoaded(true);
     };
   }, []);
+
+  useEffect(() => {
+    if (highResLoaded || messageIndex >= LOADING_MESSAGES.length - 1) return;
+
+    const timeout = setTimeout(
+      () => setMessageIndex((i) => i + 1),
+      MESSAGE_INTERVAL_MS
+    );
+    return () => clearTimeout(timeout);
+  }, [highResLoaded, messageIndex]);
+
+  const message = LOADING_MESSAGES[messageIndex];
 
   return (
     <div
@@ -54,9 +83,12 @@ const ProfileAvatar: React.FC = () => {
           style={{ borderRadius: "48% 49% 51% 47% / 49% 50% 48% 52%" }}
         >
           <div className="h-full w-full absolute inset-0 bg-ctp-crust flex flex-col items-center justify-center text-center p-4">
-            <span className="text-ctp-text text-sm sm:text-base font-medium font-source animate-pulse">
-              Wait I am coming
-              <br className="sm:hidden" /> 🏃‍♂️💨
+            <span
+              key={messageIndex}
+              className="text-ctp-text text-sm sm:text-base font-medium font-source animate-pulse"
+            >
+              {message.text}
+              <br className="sm:hidden" /> {message.emoji}
             </span>
           </div>
 

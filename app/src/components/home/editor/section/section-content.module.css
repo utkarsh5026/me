@@ -21,9 +21,9 @@
 }
 
 .innerContent.withHeader {
-  transition-delay: 0.6s;
+  transition-delay: 0.15s;
 }
 
 .innerContent.withoutHeader {
-  transition-delay: 0.3s;
+  transition-delay: 0.1s;
 }

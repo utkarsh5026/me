@@ -61,11 +61,7 @@ const ResumeProjects: React.FC = () => {
   const ref = useGitComponent(ResumeProjects);
 
   return (
-    <div
-      ref={ref}
-      className="animate-fadeIn"
-      style={{ animationDelay: "0.3s" }}
-    >
+    <div ref={ref}>
       <OutlineNode
         label="Projects"
         icon={<Code2 className="w-3 h-3" />}

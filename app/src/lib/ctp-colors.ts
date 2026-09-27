@@ -1,3 +1,5 @@
+import type { CSSProperties } from "react";
+
 export type CtpColor =
   | "ctp-red"
   | "ctp-green"
@@ -39,4 +41,13 @@ type ColorPrefix = "text" | "bg" | "border" | "from" | "to" | "shadow";
 /** Generate a Catppuccin Tailwind class like `text-ctp-blue` or `bg-ctp-peach` */
 export function ctpColorClass(prefix: ColorPrefix, color: AppColor): string {
   return `${prefix}-ctp-${color}`;
+}
+
+/**
+ * Inline style exposing a Catppuccin color as `--accent` (an "r g b" triplet),
+ * so CSS modules can write `rgb(var(--accent) / 0.2)` for any accent without
+ * needing a literal Tailwind class per color.
+ */
+export function ctpAccentStyle(color: AppColor): CSSProperties {
+  return { "--accent": `var(--ctp-${color})` } as CSSProperties;
 }

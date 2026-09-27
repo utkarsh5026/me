@@ -5,11 +5,25 @@ import { OutlineNode } from "@/components/home/editor/outline";
 import Section from "@/components/home/editor/section/portfolio-section";
 import { useGitComponent } from "@/hooks/use-git-component";
 
+import styles from "./resume.module.css";
 import ResumeEducation from "./resume-education";
 import ResumeExperience from "./resume-experience";
 import ResumeHeader from "./resume-header";
 import ResumeProjects from "./resume-projects";
 import ResumeSkills from "./resume-skills";
+
+/** A block of the resume that fades in as the "printer" edge passes it. */
+const PrintBlock: React.FC<{ step: number; children: React.ReactNode }> = ({
+  step,
+  children,
+}) => (
+  <div
+    className={styles.printBlock}
+    style={{ "--i": step } as React.CSSProperties}
+  >
+    {children}
+  </div>
+);
 
 const ResumeSection: React.FC = () => {
   const ref = useGitComponent(ResumeSection);
@@ -27,29 +41,36 @@ const ResumeSection: React.FC = () => {
     >
       <div
         ref={ref}
-        className="max-w-[850px] mx-auto p-8 sm:p-12 md:p-16 bg-ctp-crust border border-ctp-surface2 rounded-xl shadow-2xl font-mono ring-1 ring-ctp-surface1/50 my-6"
+        className={`relative max-w-[850px] mx-auto p-8 sm:p-12 md:p-16 bg-ctp-crust border border-ctp-surface2 rounded-xl shadow-2xl font-mono ring-1 ring-ctp-surface1/50 my-6 ${styles.paper}`}
       >
+        {/* Printer head riding the reveal edge */}
+        <div aria-hidden="true" className={styles.scanLine} />
+
         <OutlineNode
           label="Resume Content"
           icon={<FileText className="w-3 h-3" />}
           iconColor="lavender"
         >
-          <ResumeHeader />
+          <PrintBlock step={0}>
+            <ResumeHeader />
+          </PrintBlock>
 
           <div className="flex flex-col gap-8">
-            <ResumeExperience />
+            <PrintBlock step={1}>
+              <ResumeExperience />
+            </PrintBlock>
 
-            <div>
+            <PrintBlock step={2}>
               <ResumeEducation />
-            </div>
+            </PrintBlock>
 
-            <div>
+            <PrintBlock step={3}>
               <ResumeProjects />
-            </div>
+            </PrintBlock>
 
-            <div>
+            <PrintBlock step={4}>
               <ResumeSkills />
-            </div>
+            </PrintBlock>
           </div>
         </OutlineNode>
       </div>

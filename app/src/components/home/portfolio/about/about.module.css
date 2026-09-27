@@ -19,3 +19,94 @@
 .chevronOpen {
   transform: rotate(180deg);
 }
+
+/* ─── About: "git log --graph" ────────────────────────────────────────────────
+   A rail draws down the card list while each card's dot "commits" (pops with
+   a ring pulse) in turn and its text slides in. Gated on [data-inview] on the
+   list; --n is the card count, --i the card index, --accent the card color. */
+
+.graphRail {
+  position: absolute;
+  top: 2.5rem;
+  bottom: 2.5rem;
+  left: calc(2rem - 1px);
+  z-index: 1;
+  width: 2px;
+  border-radius: 9999px;
+  background: linear-gradient(
+    to bottom,
+    rgb(var(--ctp-mauve) / 0.55),
+    rgb(var(--ctp-pink) / 0.35)
+  );
+  transform-origin: top;
+  pointer-events: none;
+}
+
+[data-inview] > .graphRail {
+  animation: railDraw 1.2s cubic-bezier(0.4, 0, 0.2, 1) 0.1s backwards;
+}
+
+@keyframes railDraw {
+  from {
+    transform: scaleY(0);
+  }
+}
+
+.commitDot {
+  position: relative;
+  z-index: 2;
+}
+
+.commitDot::after {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: 9999px;
+  border: 2px solid rgb(var(--accent));
+  opacity: 0;
+  pointer-events: none;
+}
+
+[data-inview] .commitDot {
+  animation: commitPop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) backwards;
+  animation-delay: calc(100ms + var(--i, 0) * 1200ms / (var(--n, 6) - 1));
+}
+
+[data-inview] .commitDot::after {
+  animation: commitRing 0.8s ease-out backwards;
+  animation-delay: calc(150ms + var(--i, 0) * 1200ms / (var(--n, 6) - 1));
+}
+
+[data-inview] .commitText {
+  animation: commitText 0.45s cubic-bezier(0.2, 0.7, 0.2, 1) backwards;
+  animation-delay: calc(140ms + var(--i, 0) * 1200ms / (var(--n, 6) - 1));
+}
+
+:global(.group):hover .commitDot {
+  box-shadow: 0 0 12px rgb(var(--accent) / 0.35);
+}
+
+@keyframes commitPop {
+  from {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+}
+
+@keyframes commitRing {
+  from {
+    opacity: 0.8;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(2.2);
+  }
+}
+
+@keyframes commitText {
+  from {
+    opacity: 0;
+    transform: translateX(-12px);
+  }
+}

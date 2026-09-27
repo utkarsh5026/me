@@ -54,16 +54,17 @@
   }
 }
 
-.iconFloat {
+/* Icons only animate while their tile is hovered, so the grid stays calm. */
+.socialTile:hover .iconFloat {
   animation: float 3s ease-in-out infinite;
 }
-.iconPulse {
+.socialTile:hover .iconPulse {
   animation: pulse-scale 2.5s ease-in-out infinite;
 }
-.iconSwing {
+.socialTile:hover .iconSwing {
   animation: swing 4s ease-in-out infinite;
 }
-.iconHop {
+.socialTile:hover .iconHop {
   animation: hop 2s ease-in-out infinite;
 }
 
@@ -168,4 +169,206 @@
 }
 .mailBob {
   animation: mailBob 1.5s ease-in-out infinite;
+}
+
+/* ──────────────────────────────────────────────
+   Contact — "handshake"
+   Gated on [data-inview] on the availability card:
+   0–600ms "Connecting…" (yellow), then the badge flips to
+   "Available for work" (green) with a single radar ripple,
+   after which the regular ping keeps going.
+────────────────────────────────────────────── */
+.handshakeLayers {
+  display: inline-grid;
+}
+
+.connecting,
+.connected {
+  grid-area: 1 / 1;
+}
+
+.connecting {
+  opacity: 0;
+}
+
+[data-inview] .connecting {
+  animation: handshakeOut 0.2s ease-out 0.6s backwards;
+}
+
+[data-inview] .connected {
+  animation: handshakeIn 0.3s ease-out 0.6s backwards;
+}
+
+@keyframes handshakeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes handshakeIn {
+  from {
+    opacity: 0;
+    transform: translateY(3px);
+  }
+}
+
+/* "..." typed out while connecting */
+.dots {
+  display: inline-block;
+  width: 3ch;
+  overflow: hidden;
+  vertical-align: bottom;
+}
+
+[data-inview] .dots {
+  animation: dotsType 0.6s steps(4, jump-none) backwards;
+}
+
+@keyframes dotsType {
+  from {
+    width: 0;
+  }
+}
+
+/* Pill + dot start "connecting" yellow, settle to their green classes */
+[data-inview] .handshakePill {
+  animation: pillConnect 0.4s ease-out 0.6s backwards;
+}
+
+[data-inview] .handshakeDot {
+  animation: dotConnect 0.3s ease-out 0.6s backwards;
+}
+
+@keyframes pillConnect {
+  from {
+    color: rgb(var(--ctp-yellow));
+    border-color: rgb(var(--ctp-yellow) / 0.2);
+    background-color: rgb(var(--ctp-yellow) / 0.1);
+  }
+}
+
+@keyframes dotConnect {
+  from {
+    background-color: rgb(var(--ctp-yellow));
+  }
+}
+
+.radarRing {
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  border: 1px solid rgb(var(--ctp-green));
+  opacity: 0;
+  pointer-events: none;
+}
+
+[data-inview] .radarRing {
+  animation: radar 0.9s ease-out 0.6s forwards;
+}
+
+[data-inview] .radarRingLate {
+  animation-delay: 0.75s;
+}
+
+@keyframes radar {
+  from {
+    opacity: 0.8;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(4);
+  }
+}
+
+.handshakeAfter {
+  opacity: 0;
+}
+
+[data-inview] .handshakeAfter {
+  animation: handshakeAfterIn 0.3s ease-out 1.2s forwards;
+}
+
+@keyframes handshakeAfterIn {
+  to {
+    opacity: 1;
+  }
+}
+
+/* ──────────────────────────────────────────────
+   Magnetic CTAs — lean toward the cursor (usePointerVars)
+────────────────────────────────────────────── */
+.magnetic {
+  transition:
+    transform 0.25s cubic-bezier(0.2, 0.7, 0.2, 1),
+    background-color 0.3s ease,
+    border-color 0.3s ease;
+}
+
+.magnetic[data-pointer-active] {
+  transform: translate(
+    calc((var(--px, 0.5) - 0.5) * 8px),
+    calc((var(--py, 0.5) - 0.5) * 8px)
+  );
+}
+
+/* ──────────────────────────────────────────────
+   Click-to-copy email
+────────────────────────────────────────────── */
+.copyEmail {
+  display: inline-grid;
+  text-align: left;
+}
+
+.copyEmailText,
+.copyEmailDone {
+  grid-area: 1 / 1;
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease;
+}
+
+.copyEmailDone {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  color: rgb(var(--ctp-green));
+  opacity: 0;
+  transform: translateY(4px);
+  pointer-events: none;
+}
+
+.copyEmail[data-copied] .copyEmailText {
+  opacity: 0;
+  transform: translateY(-4px);
+}
+
+.copyEmail[data-copied] .copyEmailDone {
+  opacity: 1;
+  transform: none;
+}
+
+.copyCheck {
+  width: 1em;
+  height: 1em;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 16;
+  stroke-dashoffset: 16;
+}
+
+.copyEmail[data-copied] .copyCheck {
+  animation: drawCheck 0.35s ease-out 0.1s forwards;
+}
+
+@keyframes drawCheck {
+  to {
+    stroke-dashoffset: 0;
+  }
 }

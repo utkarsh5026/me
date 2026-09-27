@@ -412,3 +412,62 @@
 .skeleton-shimmer {
   animation: shimmer 1.5s infinite;
 }
+
+/* ─── Signature animation primitives ──────────────────────────────────────
+   Registered custom properties so they can be interpolated by keyframes.
+   Stagger convention used by section CSS modules:
+     style={{ "--i": index }}  →  animation-delay: calc(var(--i, 0) * 45ms) */
+@property --count {
+  syntax: "<integer>";
+  initial-value: 0;
+  inherits: false;
+}
+
+@property --trace-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+/* CSS-only count-up: set --count-to inline, add .count-up when in view. */
+@keyframes count-up {
+  from {
+    --count: 0;
+  }
+  to {
+    --count: var(--count-to);
+  }
+}
+
+.count-up {
+  counter-reset: count var(--count);
+  animation: count-up 900ms cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
+}
+
+.count-up::after {
+  content: counter(count);
+}
+
+/* Reduced motion: render every animation in its final state.
+   Driven by the OS preference or the in-app Settings toggle (data-motion). */
+html[data-motion="reduced"] *,
+html[data-motion="reduced"] *::before,
+html[data-motion="reduced"] *::after {
+  animation-duration: 1ms !important;
+  animation-delay: 0ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 1ms !important;
+  transition-delay: 0ms !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 1ms !important;
+    animation-delay: 0ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 1ms !important;
+    transition-delay: 0ms !important;
+  }
+}

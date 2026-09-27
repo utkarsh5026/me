@@ -1,10 +1,12 @@
-import { Reveal, type RevealEffect } from "@/components/animations";
 import IconBox from "@/components/ui/icon-box";
 import { Heading, Text } from "@/components/ui/text";
 import { useGitComponent } from "@/hooks/use-git-component";
-import { AppColor } from "@/lib/ctp-colors";
+import { useInView } from "@/hooks/use-in-view";
+import { AppColor, ctpAccentStyle } from "@/lib/ctp-colors";
+import { cn } from "@/lib/utils";
 
 import { skillCategories } from "../data";
+import styles from "../skills.module.css";
 import ExpandedSkillsContent from "./expanded-content";
 
 interface SkillCardProps {
@@ -12,22 +14,32 @@ interface SkillCardProps {
   index: number;
 }
 
-const effects: RevealEffect[] = ["fade-up", "slide-in", "blur-in", "glide"];
+/** Card entrance stagger, in ms. Mirrors `--d` in skills.module.css. */
+const CARD_STAGGER_MS = 80;
+/** When the "resolving…" status flips to the package count, in ms. */
+const STATUS_DONE_MS = 350;
 
 const SkillCard: React.FC<SkillCardProps> = ({ category, index }) => {
-  const currentEffect = effects[index % effects.length];
   const gitRef = useGitComponent(SkillCard);
+  const inView = useInView(gitRef, { once: true, margin: "-10% 0px" });
+  const packageCount = category.skills.length;
 
   return (
-    <Reveal
-      effect={currentEffect}
-      delay={index * 0.1}
-      duration={0.5}
-      className="group w-full"
-    >
+    <div className="group w-full h-full">
       <div
         ref={gitRef}
-        className="bg-ctp-surface0/10 backdrop-blur-sm rounded-xl sm:rounded-2xl p-4 sm:p-5 border-none w-full overflow-hidden"
+        data-glow=""
+        data-inview={inView || undefined}
+        style={
+          {
+            ...ctpAccentStyle(category.color as AppColor),
+            "--card": index,
+          } as React.CSSProperties
+        }
+        className={cn(
+          "relative h-full bg-ctp-surface0/10 backdrop-blur-sm rounded-xl sm:rounded-2xl p-4 sm:p-5 border-none w-full overflow-hidden",
+          styles.card
+        )}
       >
         {/* Category Header */}
         <div className="flex items-center gap-3 sm:gap-4 mb-6">
@@ -48,12 +60,31 @@ const SkillCard: React.FC<SkillCardProps> = ({ category, index }) => {
               {category.description}
             </Text>
           </div>
+
+          {/* `npm install` style status: resolving… → ✓ added N packages */}
+          <div className={styles.status} aria-hidden="true">
+            <span className={styles.statusPending}>resolving…</span>
+            <span className={styles.statusDone}>
+              <span className="text-ctp-green">✓</span> added{" "}
+              <span
+                className={cn("text-ctp-text", inView && "count-up")}
+                style={
+                  {
+                    "--count-to": packageCount,
+                    animationDelay: `${index * CARD_STAGGER_MS + STATUS_DONE_MS}ms`,
+                    animationDuration: `${300 + packageCount * 40}ms`,
+                  } as React.CSSProperties
+                }
+              />{" "}
+              {packageCount === 1 ? "package" : "packages"}
+            </span>
+          </div>
         </div>
 
         {/* All Skills */}
         <ExpandedSkillsContent category={category} />
       </div>
-    </Reveal>
+    </div>
   );
 };
 

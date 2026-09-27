@@ -1,5 +1,6 @@
 import React from "react";
 
+import { ScrambleText } from "@/components/animations";
 import Reveal from "@/components/animations/reveal/Reveal";
 import { useGitComponent } from "@/hooks/use-git-component";
 
@@ -40,17 +41,15 @@ const PersonalTitle: React.FC = () => {
       >
         <span className="flex flex-col xs:flex-row xs:items-center xs:flex-wrap gap-1 xs:gap-3">
           <span className="text-ctp-text">Hi, I'm</span>
-          <Reveal effect="slide-in" direction="right" delay={1}>
-            <span
-              className="bg-gradient-to-r from-ctp-teal to-ctp-mauve text-transparent bg-clip-text relative"
-              style={{
-                filter:
-                  "drop-shadow(0 0 8px color-mix(in srgb, rgb(var(--ctp-mauve)) 30%, transparent))",
-              }}
-            >
-              Utkarsh Priyadarshi
-            </span>
-          </Reveal>
+          <span
+            className="bg-gradient-to-r from-ctp-teal to-ctp-mauve text-transparent bg-clip-text relative"
+            style={{
+              filter:
+                "drop-shadow(0 0 8px color-mix(in srgb, rgb(var(--ctp-mauve)) 30%, transparent))",
+            }}
+          >
+            <ScrambleText text="Utkarsh Priyadarshi" delay={250} />
+          </span>
         </span>
       </h1>
 

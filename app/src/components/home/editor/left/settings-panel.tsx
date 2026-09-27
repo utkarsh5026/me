@@ -1,5 +1,10 @@
 import React from "react";
-import { VscCheck, VscGitCommit, VscSettingsGear } from "react-icons/vsc";
+import {
+  VscCheck,
+  VscGitCommit,
+  VscPulse,
+  VscSettingsGear,
+} from "react-icons/vsc";
 
 import {
   DropdownMenu,
@@ -40,8 +45,14 @@ const FLAVORS: {
 ];
 
 const SettingsPanel: React.FC = () => {
-  const { gitBlameEnabled, toggleGitBlame, flavor, setFlavor } =
-    useSettingsStore();
+  const {
+    gitBlameEnabled,
+    toggleGitBlame,
+    flavor,
+    setFlavor,
+    reducedMotion,
+    toggleReducedMotion,
+  } = useSettingsStore();
 
   return (
     <DropdownMenu>
@@ -74,6 +85,19 @@ const SettingsPanel: React.FC = () => {
             checked={gitBlameEnabled}
             onCheckedChange={toggleGitBlame}
             className="data-[state=checked]:bg-ctp-green data-[state=unchecked]:bg-ctp-surface2"
+          />
+        </div>
+
+        {/* Reduce motion toggle */}
+        <div className="flex items-center justify-between px-2 py-2">
+          <div className="flex items-center gap-2 text-sm">
+            <VscPulse className="w-3.5 h-3.5 text-ctp-mauve flex-shrink-0" />
+            <span>Reduce Motion</span>
+          </div>
+          <Switch
+            checked={reducedMotion}
+            onCheckedChange={toggleReducedMotion}
+            className="data-[state=checked]:bg-ctp-mauve data-[state=unchecked]:bg-ctp-surface2"
           />
         </div>
 

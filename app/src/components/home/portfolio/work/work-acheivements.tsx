@@ -8,12 +8,12 @@ import {
   FaTerminal,
 } from "react-icons/fa";
 
-import Reveal from "@/components/animations/reveal/Reveal";
 import { OutlineNode } from "@/components/home/editor/outline";
 import { Card, CardContent } from "@/components/ui/card";
 import IconBox from "@/components/ui/icon-box";
 import { Heading, Text } from "@/components/ui/text";
 import { useGitComponent } from "@/hooks/use-git-component";
+import { useInView } from "@/hooks/use-in-view";
 
 import { experiences } from "./experienceDump";
 import styles from "./work.module.css";
@@ -30,12 +30,20 @@ const iconMap: { [key: string]: JSX.Element } = {
   FaTerminal: <FaTerminal />,
 };
 
+/** "IDeaS - Revenue Management" → "ideas-revenue-management.ts" */
+const toFileName = (company: string) =>
+  `${company
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "")}.ts`;
+
 const Achievements: React.FC<AchievementsProps> = ({ selectedExp }) => {
   const ref = useGitComponent(Achievements);
+  const inView = useInView(ref, { once: true, margin: "-10% 0px" });
   const experience = experiences[selectedExp];
 
   return (
-    <div ref={ref}>
+    <div ref={ref} data-inview={inView || undefined}>
       <OutlineNode label="Key Achievements">
         <div className="space-y-4 sm:space-y-6">
           <div className="flex items-center gap-2 sm:gap-3 mb-4 sm:mb-6">
@@ -50,20 +58,29 @@ const Achievements: React.FC<AchievementsProps> = ({ selectedExp }) => {
             <div className="flex-1 h-px bg-gradient-to-r from-ctp-surface1/50 to-transparent" />
           </div>
 
+          {/* Diff hunk header — the achievements below enter as "added lines" */}
+          <div className={styles.diffHunk} aria-hidden="true">
+            <span className="text-ctp-sky">
+              @@ -0,0 +1,{experience.achievements.length} @@
+            </span>{" "}
+            {toFileName(experience.company)}
+          </div>
+
           <div className="flex flex-col  gap-3 sm:gap-4 md:gap-6">
             {experience.achievements.map((achievement, index) => (
               <OutlineNode
                 key={`achievement-${achievement.title}`}
                 label={achievement.title}
               >
-                <Reveal
-                  effect="rise"
-                  duration={0.6}
-                  delay={0.1 * index}
-                  threshold={0.2}
+                <div
+                  className={styles.diffLine}
+                  style={{ "--i": index } as React.CSSProperties}
                 >
+                  <span aria-hidden="true" className={styles.diffGutter}>
+                    +
+                  </span>
                   <AchievementCard achievement={achievement} index={index} />
-                </Reveal>
+                </div>
               </OutlineNode>
             ))}
           </div>

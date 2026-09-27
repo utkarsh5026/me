@@ -10,11 +10,7 @@ const ResumeEducation: React.FC = () => {
   const ref = useGitComponent(ResumeEducation);
 
   return (
-    <div
-      ref={ref}
-      className="animate-fadeIn"
-      style={{ animationDelay: "0.2s" }}
-    >
+    <div ref={ref}>
       <OutlineNode
         label="Education"
         icon={<GraduationCap className="w-3 h-3" />}

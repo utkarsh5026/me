@@ -1,7 +1,8 @@
-import React, { useEffect } from "react";
-import { FaExternalLinkAlt, FaGithub } from "react-icons/fa";
+import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { FaCheck, FaExternalLinkAlt, FaGithub } from "react-icons/fa";
 import { HiOutlineBookOpen, HiOutlineCode } from "react-icons/hi";
 
+import { ScrambleText } from "@/components/animations";
 import { technologies } from "@/components/base/technologies";
 import { MarkdownRender } from "@/components/home/editor/markdown-renderer";
 import { Heading, Text } from "@/components/ui/text";
@@ -9,11 +10,15 @@ import { useSectionNav } from "@/hooks/use-editor-actions";
 import { useGitComponent } from "@/hooks/use-git-component";
 import { useMarkdownOutlineBridge } from "@/hooks/use-markdown-outline-bridge";
 import useMobile from "@/hooks/use-mobile";
+import { useRevealOnScroll } from "@/hooks/use-reveal-on-scroll";
+import { useScrollProgress } from "@/hooks/use-scroll-progress";
 import { useSwipe } from "@/hooks/use-swipe";
 import { cn, withBase } from "@/lib/utils";
 import { useMarkdownHeadingStore } from "@/store";
 import useProjectStore from "@/store/projects/projects-store";
 import { getProjectSlug } from "@/utils/project-slug";
+
+import styles from "./project-markdown.module.css";
 
 const COVER_GRADIENTS = [
   "from-ctp-mauve/40 via-ctp-mantle to-ctp-base",
@@ -52,11 +57,19 @@ const CoverBand: React.FC<{ coverImage?: string; name: string }> = ({
 
   if (coverImage) {
     return (
-      <div className="relative w-full h-44 overflow-hidden rounded-t-xl">
+      <div
+        className={cn(
+          "relative w-full h-44 overflow-hidden rounded-t-xl",
+          styles.cover
+        )}
+      >
         <img
           src={withBase(coverImage)}
           alt={`${name} cover`}
-          className="absolute inset-0 w-full h-full object-cover"
+          className={cn(
+            "absolute inset-0 w-full h-full object-cover",
+            styles.coverImage
+          )}
         />
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-ctp-base/40 to-ctp-base/90" />
       </div>
@@ -67,7 +80,8 @@ const CoverBand: React.FC<{ coverImage?: string; name: string }> = ({
     <div
       className={cn(
         "relative w-full h-36 rounded-t-xl bg-gradient-to-b",
-        gradient
+        gradient,
+        styles.cover
       )}
     >
       {/* Subtle noise texture via repeating tiny radial */}
@@ -89,7 +103,8 @@ const PageIcon: React.FC<{ icon?: string; name: string }> = ({
         "relative -mt-14 ml-6 flex items-center justify-center z-10",
         "w-24 h-24 rounded-2xl shadow-md ring-[6px] ring-ctp-base",
         "bg-ctp-base text-5xl select-none",
-        !isEmoji && "bg-ctp-surface0 text-ctp-mauve font-bold text-4xl"
+        !isEmoji && "bg-ctp-surface0 text-ctp-mauve font-bold text-4xl",
+        styles.pageIcon
       )}
     >
       {label}
@@ -113,6 +128,7 @@ const DeepDiveLoading: React.FC<{ name: string; icon?: string }> = ({
         />
       ))}
     </div>
+    <div className={styles.downloadBar} aria-hidden="true" />
     <p className="text-xs text-ctp-subtext0 font-source">
       Downloading{" "}
       <code className="px-1 py-0.5 rounded bg-ctp-surface1/50 text-ctp-blue font-mono">
@@ -125,6 +141,7 @@ const DeepDiveLoading: React.FC<{ name: string; icon?: string }> = ({
 
 const FeatureCard: React.FC<{ feature: string; index: number }> = ({
   feature,
+  index,
 }) => {
   let title = feature;
   let description = "";
@@ -135,8 +152,14 @@ const FeatureCard: React.FC<{ feature: string; index: number }> = ({
   }
 
   return (
-    <li className="relative pl-5 py-0.5">
-      <div className="absolute left-0 top-2 w-1.5 h-1.5 rounded-full bg-ctp-surface2" />
+    <li
+      data-reveal=""
+      style={{ "--i": index % 4 } as React.CSSProperties}
+      className={cn("relative pl-5 py-0.5", styles.feature)}
+    >
+      <span aria-hidden="true" className={styles.featureCheck}>
+        <FaCheck />
+      </span>
       <span className="text-sm font-medium text-ctp-text">{title}</span>
       {description && (
         <span className="text-[13px] text-ctp-subtext0 block mt-1 leading-relaxed">
@@ -150,31 +173,39 @@ const FeatureCard: React.FC<{ feature: string; index: number }> = ({
 const OverviewTab: React.FC<{
   description: string;
   keyFeatures: string[];
-}> = ({ description, keyFeatures }) => (
-  <div className="px-6 pb-12 space-y-10 font-source">
-    {/* Description */}
-    <div className="space-y-4">
-      <SectionHeading color="bg-ctp-mauve">Project Overview</SectionHeading>
-      <div className="p-6 rounded-2xl bg-gradient-to-br from-ctp-surface0/20 to-transparent border border-ctp-surface0/50">
-        <Text variant="subtitle" className="leading-relaxed text-ctp-subtext1">
-          {description}
-        </Text>
-      </div>
-    </div>
+}> = ({ description, keyFeatures }) => {
+  const ref = useRef<HTMLDivElement>(null);
+  useRevealOnScroll(ref, keyFeatures);
 
-    {/* Features */}
-    {keyFeatures && keyFeatures.length > 0 && (
-      <div className="space-y-6">
-        <SectionHeading color="bg-ctp-green">Key Features</SectionHeading>
-        <ul className="grid grid-cols-1 sm:grid-cols-1 gap-y-4">
-          {keyFeatures.map((feature, i) => (
-            <FeatureCard key={i} feature={feature} index={i} />
-          ))}
-        </ul>
+  return (
+    <div ref={ref} className="px-6 pb-12 space-y-10 font-source">
+      {/* Description */}
+      <div className="space-y-4">
+        <SectionHeading color="bg-ctp-mauve">Project Overview</SectionHeading>
+        <div className="p-6 rounded-2xl bg-gradient-to-br from-ctp-surface0/20 to-transparent border border-ctp-surface0/50">
+          <Text
+            variant="subtitle"
+            className="leading-relaxed text-ctp-subtext1"
+          >
+            {description}
+          </Text>
+        </div>
       </div>
-    )}
-  </div>
-);
+
+      {/* Features */}
+      {keyFeatures && keyFeatures.length > 0 && (
+        <div className="space-y-6">
+          <SectionHeading color="bg-ctp-green">Key Features</SectionHeading>
+          <ul className="grid grid-cols-1 sm:grid-cols-1 gap-y-4">
+            {keyFeatures.map((feature, i) => (
+              <FeatureCard key={i} feature={feature} index={i} />
+            ))}
+          </ul>
+        </div>
+      )}
+    </div>
+  );
+};
 
 type Tab = "overview" | "deepdive";
 
@@ -195,23 +226,73 @@ const TabBar: React.FC<{
     },
   ];
 
+  const barRef = useRef<HTMLDivElement>(null);
+  const [indicator, setIndicator] = useState({ left: 0, width: 0 });
+
+  // Slide one underline between tabs instead of swapping borders.
+  useLayoutEffect(() => {
+    const bar = barRef.current;
+    if (!bar) return;
+    const measure = () => {
+      const el = bar.querySelector<HTMLElement>(`[data-tab="${active}"]`);
+      if (el) setIndicator({ left: el.offsetLeft, width: el.offsetWidth });
+    };
+    measure();
+    const observer = new ResizeObserver(measure);
+    observer.observe(bar);
+    return () => observer.disconnect();
+  }, [active]);
+
   return (
-    <div className="flex items-center gap-1 px-6 mt-6 border-b border-ctp-surface1 font-source">
+    <div
+      ref={barRef}
+      className="relative flex items-center gap-1 px-6 mt-6 border-b border-ctp-surface1 font-source"
+    >
       {tabs.map((tab) => (
         <button
           key={tab.id}
+          data-tab={tab.id}
           onClick={() => onChange(tab.id)}
           className={cn(
-            "inline-flex items-center gap-1.5 px-3 py-2 text-xs border-b-2 transition-colors -mb-px",
+            "inline-flex items-center gap-1.5 px-3 py-2 text-xs border-b-2 border-transparent transition-colors -mb-px",
             active === tab.id
-              ? "border-ctp-blue text-ctp-blue"
-              : "border-transparent text-ctp-subtext0 hover:text-ctp-text"
+              ? "text-ctp-blue"
+              : "text-ctp-subtext0 hover:text-ctp-text"
           )}
         >
           {tab.icon}
           {tab.label}
         </button>
       ))}
+      <span
+        aria-hidden="true"
+        className={styles.tabIndicator}
+        style={{
+          width: indicator.width,
+          transform: `translateX(${indicator.left}px)`,
+        }}
+      />
+    </div>
+  );
+};
+
+/** The loaded deep-dive markdown with a sticky reading-progress bar. */
+const DeepDiveArticle: React.FC<{ markdown: string; slug: string }> = ({
+  markdown,
+  slug,
+}) => {
+  const articleRef = useRef<HTMLDivElement>(null);
+  const progressRef = useRef<HTMLDivElement>(null);
+  useScrollProgress(articleRef, progressRef);
+
+  return (
+    <div ref={articleRef}>
+      <div className={styles.progressTrack} aria-hidden="true">
+        <div ref={progressRef} className={styles.progressBar} />
+      </div>
+      <div className="px-6 pb-10 font-sans" data-git-component={slug}>
+        <MarkdownRender markdown={markdown} />
+      </div>
     </div>
   );
 };
@@ -252,7 +333,7 @@ const ProjectMarkdown: React.FC<ProjectMarkdownProps> = ({ projectId }) => {
     (s) => (s.markdownStates[slug] as LoadState) ?? "loading"
   );
 
-  const [activeTab, setActiveTab] = React.useState<Tab>("overview");
+  const [activeTab, setActiveTab] = useState<Tab>("overview");
   useMarkdownOutlineBridge(project?.name ?? projectId);
   const setIsDeepDive = useMarkdownHeadingStore((s) => s.setIsDeepDive);
   const setActiveHeadings = useMarkdownHeadingStore((s) => s.setActiveHeadings);
@@ -289,15 +370,27 @@ const ProjectMarkdown: React.FC<ProjectMarkdownProps> = ({ projectId }) => {
         <PageIcon icon={project.icon} name={project.name} />
 
         <div className="px-6 mt-6 mb-4 font-source">
-          <Heading as="h1">{project.name}</Heading>
+          <Heading as="h1">
+            <ScrambleText text={project.name} delay={150} duration={800} />
+          </Heading>
           {project.tagline && (
-            <Text variant="lead" className="mt-3">
+            <Text
+              variant="lead"
+              className={cn("mt-3", styles.bootIn)}
+              style={{ "--d": "300ms" } as React.CSSProperties}
+            >
               {project.tagline}
             </Text>
           )}
         </div>
 
-        <div className="flex items-center gap-3 px-6 mt-3 font-source">
+        <div
+          className={cn(
+            "flex items-center gap-3 px-6 mt-3 font-source",
+            styles.bootIn
+          )}
+          style={{ "--d": "380ms" } as React.CSSProperties}
+        >
           {project.githubLink &&
             project.githubLink !== "private-repository" && (
               <a
@@ -330,10 +423,14 @@ const ProjectMarkdown: React.FC<ProjectMarkdownProps> = ({ projectId }) => {
           <div className="px-6">
             <SectionHeading color="bg-ctp-yellow">Tech Stack</SectionHeading>
             <div className="flex flex-wrap gap-2 font-source">
-              {project.technologies.map((tech) => (
+              {project.technologies.map((tech, i) => (
                 <div
                   key={tech}
-                  className="flex items-center gap-1.5 px-2.5 py-1.5 bg-ctp-surface1/15 hover:bg-ctp-surface1/30 rounded-md transition-all duration-200 group/tech"
+                  style={{ "--i": i } as React.CSSProperties}
+                  className={cn(
+                    "flex items-center gap-1.5 px-2.5 py-1.5 bg-ctp-surface1/15 hover:bg-ctp-surface1/30 rounded-md transition-all duration-200 group/tech",
+                    styles.chip
+                  )}
                 >
                   <div className="flex-shrink-0 flex items-center justify-center group-hover/tech:scale-110 transition-transform duration-200">
                     <div className="w-3.5 h-3.5 flex items-center justify-center">
@@ -354,7 +451,7 @@ const ProjectMarkdown: React.FC<ProjectMarkdownProps> = ({ projectId }) => {
 
         {/* Tab panels */}
         {activeTab === "overview" && (
-          <div className="mt-6">
+          <div className={cn("mt-6", styles.panelFromLeft)}>
             <OverviewTab
               description={project.description ?? ""}
               keyFeatures={(project.keyFeatures as string[]) ?? []}
@@ -363,15 +460,13 @@ const ProjectMarkdown: React.FC<ProjectMarkdownProps> = ({ projectId }) => {
         )}
 
         {activeTab === "deepdive" && (
-          <div className="mt-6">
+          <div className={cn("mt-6", styles.panelFromRight)}>
             {loadState === "loading" && (
               <DeepDiveLoading name={project.name} icon={project.icon} />
             )}
 
             {loadState === "loaded" && markdown && (
-              <div className="px-6 pb-10 font-sans" data-git-component={slug}>
-                <MarkdownRender markdown={markdown} />
-              </div>
+              <DeepDiveArticle markdown={markdown} slug={slug} />
             )}
 
             {loadState === "error" && (

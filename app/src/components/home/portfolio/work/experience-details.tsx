@@ -15,6 +15,7 @@ import {
 import IconBox from "@/components/ui/icon-box";
 import { Heading, Text } from "@/components/ui/text";
 import { useGitComponent } from "@/hooks/use-git-component";
+import { useInView } from "@/hooks/use-in-view";
 import useMobile from "@/hooks/use-mobile";
 
 import ExperienceHeader from "./experience-header";
@@ -30,9 +31,11 @@ const TechnologiesContent: React.FC<{ selectedExp: number }> = ({
   selectedExp,
 }) => {
   const gitRef = useGitComponent(TechnologiesContent);
+  const inView = useInView(gitRef, { once: true, margin: "-10% 0px" });
   return (
     <div
       ref={gitRef}
+      data-inview={inView || undefined}
       className="px-4 sm:px-5 md:px-6 lg:px-8 pb-6 sm:pb-8 border-t border-ctp-surface1/20"
     >
       <OutlineNode label="Technologies Used">
@@ -49,18 +52,17 @@ const TechnologiesContent: React.FC<{ selectedExp: number }> = ({
             <div className="flex-1 h-px bg-gradient-to-r from-ctp-surface1/50 to-transparent" />
           </div>
 
-          <Reveal
-            effect="cascade"
-            duration={0.5}
-            staggerChildren={0.05}
-            className="flex flex-wrap gap-2 sm:gap-3 md:gap-4"
-          >
+          <div className="flex flex-wrap gap-2 sm:gap-3 md:gap-4">
             {experiences[selectedExp].technologies.map((tech, index) => (
-              <div key={`${tech}-${index}`} className={styles.interactiveLg}>
+              <div
+                key={`${tech}-${index}`}
+                className={`${styles.interactiveLg} ${styles.badgeIn}`}
+                style={{ "--i": index } as React.CSSProperties}
+              >
                 <TechBadge tech={tech} />
               </div>
             ))}
-          </Reveal>
+          </div>
         </div>
       </OutlineNode>
     </div>
@@ -114,14 +116,7 @@ const MobileDrawerContent: React.FC<{ selectedExp: number }> = ({
     <div className="overflow-y-auto flex-1 pb-6">
       {/* Achievements */}
       <div className="pt-6 px-4">
-        <Reveal
-          effect="cascade"
-          duration={0.8}
-          delay={0.1}
-          staggerChildren={0.1}
-        >
-          <Achievements selectedExp={selectedExp} />
-        </Reveal>
+        <Achievements selectedExp={selectedExp} />
       </div>
 
       {/* Technologies */}
@@ -150,31 +145,18 @@ const DesktopContent: React.FC<{ selectedExp: number }> = ({ selectedExp }) => {
     >
       <CardContent className="p-0">
         {/* Header */}
-        <Reveal effect="fade-up" duration={0.7} delay={0.3}>
-          <ExperienceHeader selectedExp={selectedExp} />
-        </Reveal>
+        <ExperienceHeader selectedExp={selectedExp} />
 
         {/* Achievements */}
         <div className="px-4 sm:px-5 md:px-6 lg:px-8 pb-6 sm:pb-8">
-          <Reveal
-            effect="cascade"
-            duration={0.8}
-            delay={0.4}
-            staggerChildren={0.1}
-          >
-            <Achievements selectedExp={selectedExp} />
-          </Reveal>
+          <Achievements selectedExp={selectedExp} />
         </div>
 
         {/* Technologies */}
-        <Reveal effect="fade-up" duration={0.7} delay={0.5}>
-          <TechnologiesContent selectedExp={selectedExp} />
-        </Reveal>
+        <TechnologiesContent selectedExp={selectedExp} />
 
         {/* Footer */}
-        <Reveal effect="fade-up" duration={0.7} delay={0.6}>
-          <FooterContent />
-        </Reveal>
+        <FooterContent />
       </CardContent>
     </Card>
   );

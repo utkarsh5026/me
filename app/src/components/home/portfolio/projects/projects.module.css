@@ -1,0 +1,117 @@
+/* Projects gallery: accent-bar wipe entrance + 3D tilt with glare on hover.
+   --accent is the project's accent color triplet (ctpAccentStyle),
+   --i is the stagger step, --px/--py/--mx/--my come from usePointerVars. */
+
+.card {
+  clip-path: inset(0 100% 0 0);
+  transition:
+    transform 0.2s ease-out,
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.card[data-inview] {
+  clip-path: none;
+  animation: cardWipe 0.65s cubic-bezier(0.65, 0, 0.35, 1) backwards;
+  animation-delay: calc(var(--i, 0) * 90ms);
+}
+
+@keyframes cardWipe {
+  0% {
+    clip-path: inset(0 100% 0 0);
+  }
+  80%,
+  100% {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+/* Leading accent bar that rides the wipe edge, then fades. */
+.card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  background: linear-gradient(
+    90deg,
+    transparent calc(100% - 56px),
+    rgb(var(--accent) / 0.14) calc(100% - 2px),
+    rgb(var(--accent)) calc(100% - 2px)
+  );
+}
+
+.card[data-inview]::after {
+  animation: cardWipeBar 0.65s cubic-bezier(0.65, 0, 0.35, 1) both;
+  animation-delay: calc(var(--i, 0) * 90ms);
+}
+
+@keyframes cardWipeBar {
+  0% {
+    opacity: 1;
+    transform: translateX(-100%);
+  }
+  80% {
+    opacity: 1;
+    transform: none;
+  }
+  100% {
+    opacity: 0;
+    transform: none;
+  }
+}
+
+/* Hover: tilt toward the cursor with an accent-tinted glare. */
+.card[data-pointer-active] {
+  transform: perspective(900px) rotateX(calc((0.5 - var(--py, 0.5)) * 8deg))
+    rotateY(calc((var(--px, 0.5) - 0.5) * 8deg));
+}
+
+.card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(
+    280px circle at var(--mx, 50%) var(--my, 50%),
+    rgb(var(--accent) / 0.1),
+    transparent 70%
+  );
+  transition: opacity 0.3s ease;
+}
+
+.card[data-pointer-active]::before {
+  opacity: 1;
+}
+
+/* Featured ↔ Gallery tabs slide in from the side their trigger sits on. */
+.panelFromLeft[data-state="active"] {
+  animation: panelFromLeft 0.3s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+.panelFromRight[data-state="active"] {
+  animation: panelFromRight 0.3s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+@keyframes panelFromLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes panelFromRight {
+  from {
+    opacity: 0;
+    transform: translateX(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}

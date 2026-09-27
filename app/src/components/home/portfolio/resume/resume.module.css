@@ -1,0 +1,82 @@
+/* Resume — "printer feed".
+   The paper is revealed top → bottom while a lavender printer head rides the
+   reveal edge; each block fades in roughly as the edge passes it (--i). */
+
+.paper {
+  animation: paperFeed 1.4s cubic-bezier(0.45, 0, 0.25, 1) 0.2s backwards;
+}
+
+/* Negative side insets keep the drop shadow visible while printing. */
+@keyframes paperFeed {
+  from {
+    clip-path: inset(0 -48px 100% -48px);
+  }
+  to {
+    clip-path: inset(0 -48px 0 -48px);
+  }
+}
+
+/* Full-height layer whose bottom edge is the printer head; translating it
+   from -100% to 0 moves that edge from the paper's top to its bottom. */
+.scanLine {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  background: linear-gradient(
+    to bottom,
+    transparent calc(100% - 64px),
+    rgb(var(--ctp-lavender) / 0.12) calc(100% - 2px),
+    rgb(var(--ctp-lavender)) calc(100% - 2px)
+  );
+  animation: printerHead 1.4s cubic-bezier(0.45, 0, 0.25, 1) 0.2s;
+}
+
+@keyframes printerHead {
+  0% {
+    opacity: 1;
+    transform: translateY(-100%);
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: none;
+  }
+}
+
+.printBlock {
+  animation: printBlock 0.5s ease-out backwards;
+  animation-delay: calc(250ms + var(--i, 0) * 230ms);
+}
+
+@keyframes printBlock {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+}
+
+/* Download PDF: the arrow drops like a file landing. */
+.download:hover .downloadIcon {
+  animation: downloadDrop 0.45s ease-in-out;
+}
+
+@keyframes downloadDrop {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  35% {
+    transform: translateY(4px);
+  }
+  60% {
+    transform: translateY(0);
+  }
+  80% {
+    transform: translateY(2px);
+  }
+}

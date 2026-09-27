@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import { FaAward, FaStar } from "react-icons/fa";
+import { FaAward, FaCheck, FaStar } from "react-icons/fa";
 
 import Reveal from "@/components/animations/reveal/Reveal";
 import GradientText from "@/components/ui/gradient-text";
 import { Heading } from "@/components/ui/text";
 import { useGitComponent } from "@/hooks/use-git-component";
+import { useInView } from "@/hooks/use-in-view";
 import { useMobileContext } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
 import type { Project } from "@/types";
@@ -25,68 +26,63 @@ const FeaturedProject: React.FC<FeaturedProjectProps> = ({
   const [activeTab, setActiveTab] = useState<Tab>("overview");
   const { isMobile } = useMobileContext();
   const gitRef = useGitComponent(FeaturedProject);
+  const inView = useInView(gitRef, { once: true, margin: "-10% 0px" });
 
   return (
-    <div ref={gitRef} className="mb-16 max-w-6xl mx-auto relative">
+    <div
+      ref={gitRef}
+      data-inview={inView || undefined}
+      className="mb-16 max-w-6xl mx-auto relative"
+    >
       <FeaturedHeader />
-      <Reveal effect="zoom-in" duration={0.5}>
-        <div className="overflow-hidden">
-          <div className="relative">
-            {/* Main content card */}
-            <Reveal effect="fade-up" duration={0.6} delay={0.2}>
-              <div
-                className={cn(
-                  "relative rounded-xl overflow-auto shadow-xl",
-                  !isMobile && "bg-gradient-to-br from-ctp-mantle to-ctp-crust"
-                )}
-              >
-                <div className="relative px-8 pt-8 pb-4">
-                  {!isMobile && (
-                    <div className="absolute top-4 right-4 flex items-center gap-1.5 px-3 py-1 rounded-full bg-ctp-peach/20 text-ctp-peach border border-ctp-peach/10 text-xs font-semibold">
-                      <FaStar className="text-ctp-peach" />
-                      Featured
-                    </div>
-                  )}
-
-                  <Reveal effect="slide-in" direction="up" duration={0.6}>
-                    <Heading as="h2" className="text-pretty">
-                      <GradientText from="peach" via="maroon" to="peach">
-                        {featuredProject.name}
-                      </GradientText>
-                    </Heading>
-                  </Reveal>
-                </div>
-
-                {/* Tab navigation */}
-                <TabNavigation
-                  activeTab={activeTab}
-                  setActiveTab={setActiveTab}
-                />
-
-                <div
-                  className={cn(
-                    "p-8",
-                    !isMobile &&
-                      "bg-gradient-to-br from-ctp-mantle to-ctp-crust"
-                  )}
-                >
-                  <div className="flex flex-col xl:flex-row gap-10 items-center">
-                    {isMobile && activeTab === "overview" && (
-                      <Certificate name={featuredProject.name} />
-                    )}
-                    <ProjectContent
-                      activeTab={activeTab}
-                      featuredProject={featuredProject}
-                      handleProjectSelect={handleProjectSelect}
-                    />
-                    {!isMobile && <Certificate name={featuredProject.name} />}
-                  </div>
-                </div>
+      <div className={cn("relative", styles.cardEnter)}>
+        {/* One-shot glow when the pipeline "ships" */}
+        <span aria-hidden="true" className={styles.shipRing} />
+        {/* Main content card */}
+        <div
+          className={cn(
+            "relative rounded-xl overflow-auto shadow-xl",
+            !isMobile && "bg-gradient-to-br from-ctp-mantle to-ctp-crust"
+          )}
+        >
+          <div className="relative px-8 pt-8 pb-4">
+            {!isMobile && (
+              <div className="absolute top-4 right-4 flex items-center gap-1.5 px-3 py-1 rounded-full bg-ctp-peach/20 text-ctp-peach border border-ctp-peach/10 text-xs font-semibold">
+                <FaStar className="text-ctp-peach" />
+                Featured
               </div>
-            </Reveal>
+            )}
+
+            <Heading as="h2" className="text-pretty">
+              <GradientText from="peach" via="maroon" to="peach">
+                {featuredProject.name}
+              </GradientText>
+            </Heading>
+          </div>
+
+          {/* Tab navigation */}
+          <TabNavigation activeTab={activeTab} setActiveTab={setActiveTab} />
+
+          <div
+            className={cn(
+              "p-8",
+              !isMobile && "bg-gradient-to-br from-ctp-mantle to-ctp-crust"
+            )}
+          >
+            <div className="flex flex-col xl:flex-row gap-10 items-center">
+              {isMobile && activeTab === "overview" && (
+                <Certificate name={featuredProject.name} />
+              )}
+              <ProjectContent
+                activeTab={activeTab}
+                featuredProject={featuredProject}
+                handleProjectSelect={handleProjectSelect}
+              />
+              {!isMobile && <Certificate name={featuredProject.name} />}
+            </div>
           </div>
         </div>
-      </Reveal>
+      </div>
     </div>
   );
 };
@@ -132,10 +128,12 @@ const TabNavigation: React.FC<TabNavigationProps> = ({
   );
 };
 
+const PIPELINE_STAGES = ["lint", "test", "build", "deploy"] as const;
+
 /**
- * FeaturedHeader component displays the header for the featured project section.
- * It includes a title, an animated sparkles icon, a divider, and a button to toggle
- * the visibility of the featured project details.
+ * FeaturedHeader shows the award icon and title, followed by a mini CI
+ * pipeline whose stages pass one after another when the featured project
+ * scrolls into view (driven by `data-inview` on the FeaturedProject root).
  */
 const FeaturedHeader: React.FC = () => {
   return (
@@ -153,12 +151,29 @@ const FeaturedHeader: React.FC = () => {
       </Heading>
 
       <div
-        className={`h-px flex-grow ${styles.lineGrow}`}
-        style={{
-          background:
-            "linear-gradient(90deg, rgba(250,179,135,0.5) 0%, rgba(137,180,250,0) 100%)",
-        }}
-      />
+        className={styles.pipeline}
+        role="img"
+        aria-label="Build pipeline: lint, test, build and deploy all passed"
+      >
+        {PIPELINE_STAGES.map((stage, i) => (
+          <React.Fragment key={stage}>
+            <span
+              className={styles.pipeLink}
+              style={{ "--i": i } as React.CSSProperties}
+            />
+            <span
+              className={styles.pipeStage}
+              style={{ "--i": i } as React.CSSProperties}
+            >
+              <span className={styles.pipeDot}>
+                <FaCheck className={styles.pipeCheck} />
+              </span>
+              <span className={styles.pipeLabel}>{stage}</span>
+            </span>
+          </React.Fragment>
+        ))}
+        <span className={styles.pipeTail} />
+      </div>
     </div>
   );
 };

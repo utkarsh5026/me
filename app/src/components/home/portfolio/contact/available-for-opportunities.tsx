@@ -6,6 +6,7 @@ import { OutlineNode } from "@/components/home/editor/outline";
 import { Button } from "@/components/ui/button";
 import { Heading, Text } from "@/components/ui/text";
 import { useGitComponent } from "@/hooks/use-git-component";
+import { useInView } from "@/hooks/use-in-view";
 
 import styles from "./contact.module.css";
 
@@ -26,6 +27,7 @@ const opportunities = [
 
 const AvailableForOpportunities = () => {
   const ref = useGitComponent(AvailableForOpportunities);
+  const inView = useInView(ref, { once: true, margin: "-10% 0px" });
   return (
     <OutlineNode
       label="Available for Opportunities"
@@ -41,22 +43,39 @@ const AvailableForOpportunities = () => {
       >
         <div
           ref={ref}
+          data-inview={inView || undefined}
           className="h-full w-full bg-ctp-surface0/10 backdrop-blur-sm rounded-2xl p-6 sm:p-8 md:p-10 flex flex-col justify-between border border-ctp-surface0/50 hover:border-ctp-surface1/50 transition-colors relative overflow-hidden group"
         >
           {/* Decorative background element */}
           <div className="absolute top-0 right-0 w-64 h-64 sm:w-80 sm:h-80 bg-ctp-lavender/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3 group-hover:bg-ctp-lavender/10 transition-colors duration-500 pointer-events-none" />
 
           <div className="relative z-10 flex flex-col items-start">
-            {/* Availability badge */}
+            {/* Availability badge — "handshake": connecting… → available */}
             <div
               className={`flex items-center gap-3 mb-6 sm:mb-8 ${styles.badgePop}`}
             >
               <span className="relative flex h-2.5 w-2.5 sm:h-3 sm:w-3 items-center justify-center">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-ctp-green opacity-75" />
-                <span className="relative inline-flex rounded-full h-full w-full bg-ctp-green" />
+                <span className={`absolute inset-0 ${styles.handshakeAfter}`}>
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-ctp-green opacity-75" />
+                </span>
+                <span aria-hidden="true" className={styles.radarRing} />
+                <span
+                  aria-hidden="true"
+                  className={`${styles.radarRing} ${styles.radarRingLate}`}
+                />
+                <span
+                  className={`relative inline-flex rounded-full h-full w-full bg-ctp-green ${styles.handshakeDot}`}
+                />
               </span>
-              <span className="text-[10px] sm:text-xs font-semibold text-ctp-green border border-ctp-green/20 bg-ctp-green/10 px-3 py-1 sm:py-1.5 rounded-full uppercase tracking-wider shadow-sm">
-                Available for work
+              <span
+                className={`text-[10px] sm:text-xs font-semibold text-ctp-green border border-ctp-green/20 bg-ctp-green/10 px-3 py-1 sm:py-1.5 rounded-full uppercase tracking-wider shadow-sm ${styles.handshakePill}`}
+              >
+                <span className={styles.handshakeLayers}>
+                  <span aria-hidden="true" className={styles.connecting}>
+                    Connecting<span className={styles.dots}>...</span>
+                  </span>
+                  <span className={styles.connected}>Available for work</span>
+                </span>
               </span>
             </div>
 

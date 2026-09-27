@@ -34,6 +34,8 @@ import tsx from "react-syntax-highlighter/dist/esm/languages/prism/tsx";
 import typescript from "react-syntax-highlighter/dist/esm/languages/prism/typescript";
 import yaml from "react-syntax-highlighter/dist/esm/languages/prism/yaml";
 
+import styles from "./markdown.module.css";
+
 SyntaxHighlighter.registerLanguage("tsx", tsx);
 SyntaxHighlighter.registerLanguage("typescript", typescript);
 SyntaxHighlighter.registerLanguage("ts", typescript);
@@ -173,7 +175,10 @@ export const CodeBlock: React.FC<{ language: string; code: string }> = ({
   const meta = langMetaMap[displayLang.toLowerCase()];
 
   return (
-    <div className="relative my-6 md:my-8 rounded-md overflow-hidden border border-[#3c3c3c] shadow-lg shadow-black/20 group/code">
+    <div
+      data-reveal=""
+      className={`relative my-6 md:my-8 rounded-md overflow-hidden border border-[#3c3c3c] shadow-lg shadow-black/20 group/code ${styles.codeBlock}`}
+    >
       {/* Title bar (VS Code Tab style) */}
       <div className="flex items-center justify-between pr-4 bg-[#252526] border-b border-[#3c3c3c]">
         <div className="flex items-center">
