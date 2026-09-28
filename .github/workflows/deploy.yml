@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           # Full history needed so generate-git-commits.js can read all 20 commits.
           # Without this, GitHub Actions only clones the latest commit (depth=1).
