@@ -105,7 +105,7 @@ const StatusBarComponent: React.FC = () => {
     : { dot: "bg-ctp-overlay0", text: "text-ctp-subtext0" };
 
   return (
-    <div className="bg-ctp-base border-t border-ctp-surface0 text-ctp-text text-xs flex items-center justify-between min-h-[28px] px-2 md:px-4 py-1 font-source">
+    <div className="bg-ctp-base border-t border-ctp-surface0 text-ctp-text text-xs flex items-center justify-between min-h-7 px-2 md:px-4 py-1 font-source">
       {/* ── Left: branch + commit message ──────────────────────────────── */}
       <div className="flex items-center gap-2 md:gap-4 flex-1 min-w-0 overflow-hidden">
         {/* Branch + hash */}

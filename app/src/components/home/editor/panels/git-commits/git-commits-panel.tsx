@@ -53,7 +53,7 @@ const SummaryStatsBar: React.FC<SummaryStatsBarProps> = ({ commits }) => {
         <span
           key={label}
           className={cn(
-            "flex items-center gap-1 text-[10px] font-source",
+            "flex items-center gap-1 text-[0.625rem] font-source",
             color
           )}
         >
@@ -105,11 +105,11 @@ const GitCommitsPanel: React.FC<GitCommitsPanelProps> = ({ open, onClose }) => {
 
       {/* Sub-header */}
       <div className="flex items-center justify-between px-4 py-2 border-b border-ctp-surface0/50 bg-ctp-mantle flex-shrink-0">
-        <span className="text-[10px] text-ctp-subtext0 uppercase tracking-widest font-medium">
+        <span className="text-[0.625rem] text-ctp-subtext0 uppercase tracking-widest font-medium">
           {loading ? "Loading…" : `${commits.length} Recent Commits`}
         </span>
         {genTime && !loading && (
-          <div className="flex items-center gap-1 text-[10px] text-ctp-overlay0">
+          <div className="flex items-center gap-1 text-[0.625rem] text-ctp-overlay0">
             <FiRefreshCw className="w-2.5 h-2.5" />
             <span>{genTime}</span>
           </div>
@@ -162,7 +162,7 @@ const GitCommitsPanel: React.FC<GitCommitsPanelProps> = ({ open, onClose }) => {
       )}
 
       <div className="flex-shrink-0 px-4 py-2 border-t border-ctp-surface0 bg-ctp-base/60">
-        <p className="text-[9px] text-ctp-overlay0 text-center tracking-wider">
+        <p className="text-[0.5625rem] text-ctp-overlay0 text-center tracking-wider">
           utkarsh5026/me
         </p>
       </div>

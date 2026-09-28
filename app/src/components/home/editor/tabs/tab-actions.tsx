@@ -51,7 +51,7 @@ export const TabActions = ({
 
       <DropdownMenuContent
         align="end"
-        className="min-w-[220px] bg-ctp-mantle border-ctp-surface0 text-ctp-text font-source"
+        className="min-w-[13.75rem] bg-ctp-mantle border-ctp-surface0 text-ctp-text font-source"
       >
         {/* ── Group 1: Close All ── */}
         <DropdownMenuGroup>

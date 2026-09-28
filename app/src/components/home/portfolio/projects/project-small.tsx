@@ -93,7 +93,7 @@ const ProjectSmall = memo<ProjectSmallProps>(function ProjectSmall({
 
       {/* Description */}
       <div className="mb-5">
-        <p className="text-[13px] sm:text-sm text-ctp-subtext0 leading-[1.6] line-clamp-3 group-hover:text-ctp-subtext1 transition-colors duration-300">
+        <p className="text-[0.8125rem] sm:text-sm text-ctp-subtext0 leading-[1.6] line-clamp-3 group-hover:text-ctp-subtext1 transition-colors duration-300">
           {project.description}
         </p>
       </div>
@@ -108,7 +108,7 @@ const ProjectSmall = memo<ProjectSmallProps>(function ProjectSmall({
       {/* Footer Links (Always visible but subtle) */}
       <div className="mt-5 pt-4 border-t border-ctp-surface0/40 flex items-center justify-between">
         <div
-          className={`text-[11px] font-semibold tracking-wider uppercase text-ctp-${accentColor}/70 group-hover:text-ctp-${accentColor} transition-colors`}
+          className={`text-[0.6875rem] font-semibold tracking-wider uppercase text-ctp-${accentColor}/70 group-hover:text-ctp-${accentColor} transition-colors`}
         >
           View Project
         </div>

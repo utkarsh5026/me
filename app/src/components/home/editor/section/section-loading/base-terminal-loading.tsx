@@ -88,7 +88,7 @@ const BaseTerminalLoading: React.FC<BaseTerminalLoadingProps> = ({
     : "bg-ctp-green";
 
   return (
-    <div className="flex items-center justify-center min-h-[400px] w-full p-4">
+    <div className="flex items-center justify-center min-h-[25rem] w-full p-4">
       <div className="w-full max-w-2xl mx-auto shadow-2xl shadow-ctp-crust/50 rounded-xl overflow-hidden group">
         <div className="bg-ctp-base/90 backdrop-blur-xl border border-ctp-surface1/50 transition-colors duration-300">
           {/* Header */}
@@ -112,7 +112,7 @@ const BaseTerminalLoading: React.FC<BaseTerminalLoadingProps> = ({
           </div>
 
           {/* Terminal Content Box */}
-          <div className="p-6 space-y-3 font-source text-[15px] min-h-[220px]">
+          <div className="p-6 space-y-3 font-source text-[0.9375rem] min-h-[13.75rem]">
             {commands.map((command, index) => {
               if (index > currentCmdIndex) return null;
 

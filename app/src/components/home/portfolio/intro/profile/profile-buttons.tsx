@@ -213,7 +213,7 @@ const ProfileButtons: React.FC = () => {
                         <span className="font-medium text-ctp-text text-xs">
                           {tooltip.title}
                         </span>
-                        <span className="text-ctp-overlay1 text-[10px]">
+                        <span className="text-ctp-overlay1 text-[0.625rem]">
                           {tooltip.description}
                         </span>
                       </div>

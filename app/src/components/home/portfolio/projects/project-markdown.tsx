@@ -162,7 +162,7 @@ const FeatureCard: React.FC<{ feature: string; index: number }> = ({
       </span>
       <span className="text-sm font-medium text-ctp-text">{title}</span>
       {description && (
-        <span className="text-[13px] text-ctp-subtext0 block mt-1 leading-relaxed">
+        <span className="text-[0.8125rem] text-ctp-subtext0 block mt-1 leading-relaxed">
           {description}
         </span>
       )}
@@ -437,7 +437,7 @@ const ProjectMarkdown: React.FC<ProjectMarkdownProps> = ({ projectId }) => {
                       {technologies[tech].icon}
                     </div>
                   </div>
-                  <span className="text-[11px] sm:text-sm text-ctp-subtext1 group-hover/tech:text-ctp-text font-medium transition-colors duration-200 -mt-[1px]">
+                  <span className="text-[0.6875rem] sm:text-sm text-ctp-subtext1 group-hover/tech:text-ctp-text font-medium transition-colors duration-200 -mt-[1px]">
                     {technologies[tech].name}
                   </span>
                 </div>

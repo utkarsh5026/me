@@ -3,6 +3,7 @@ import "./Terminal.css";
 import React, { useEffect, useState } from "react";
 
 import { useEditorToggles } from "@/hooks/use-editor-actions";
+import { pxToRem } from "@/lib/utils";
 
 import TerminalCommandOutput from "./TerminalCommandOutput";
 import TerminalCommandSuggestions from "./TerminalCommandSuggestions";
@@ -64,8 +65,8 @@ const Terminal: React.FC = () => {
         <div
           className="w-full rounded-xl flex flex-col overflow-hidden font-source text-sm shadow-2xl relative group bg-ctp-crust terminal-window-enter"
           style={{
-            height: isMaximized ? "100vh" : "min(60vh, 600px)",
-            fontSize: `${fontSize}px`,
+            height: isMaximized ? "100vh" : "min(60vh, 37.5rem)",
+            fontSize: pxToRem(fontSize),
             backdropFilter: "blur(20px)",
             boxShadow:
               "0 10px 40px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(91, 100, 124, 0.2) inset",

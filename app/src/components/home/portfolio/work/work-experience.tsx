@@ -47,7 +47,7 @@ const WorkExperience: React.FC = () => {
                       {experiences.map((exp, index) => (
                         <button
                           key={`mobile-${exp.duration}-${index}`}
-                          className={`flex-shrink-0 p-3 sm:p-4 rounded-lg sm:rounded-xl transition-all duration-300 min-w-[160px] sm:min-w-[200px] border ${
+                          className={`flex-shrink-0 p-3 sm:p-4 rounded-lg sm:rounded-xl transition-all duration-300 min-w-40 sm:min-w-[12.5rem] border ${
                             selectedExp === index
                               ? "bg-ctp-surface0/80 border-ctp-blue/30"
                               : "bg-ctp-surface0/30 border-ctp-surface1/30 hover:bg-ctp-surface0/50"

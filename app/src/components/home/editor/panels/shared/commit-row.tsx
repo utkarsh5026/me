@@ -143,7 +143,7 @@ const CommitRow: React.FC<CommitRowProps> = ({
       <div className="mt-0.5 flex-shrink-0 relative">
         <Avatar className="w-6 h-6 ring-1 ring-ctp-surface1 group-hover:ring-ctp-lavender transition-all duration-200">
           <AvatarImage src={avatarUrl} alt={author} />
-          <AvatarFallback className="bg-ctp-surface0 text-[10px] text-ctp-subtext0 font-medium uppercase">
+          <AvatarFallback className="bg-ctp-surface0 text-[0.625rem] text-ctp-subtext0 font-medium uppercase">
             {author.charAt(0)}
           </AvatarFallback>
         </Avatar>
@@ -160,19 +160,19 @@ const CommitRow: React.FC<CommitRowProps> = ({
 
         <div className="mt-1.5 flex items-center gap-1.5 flex-wrap">
           {showAuthor && (
-            <span className="text-[10px] text-ctp-subtext0 group-hover:text-ctp-subtext1 transition-colors truncate max-w-[110px]">
+            <span className="text-[0.625rem] text-ctp-subtext0 group-hover:text-ctp-subtext1 transition-colors truncate max-w-[6.875rem]">
               {author}
             </span>
           )}
 
-          <span className="font-source text-[10px] text-ctp-peach bg-ctp-surface0/50 group-hover:bg-ctp-surface0/80 px-1.5 py-0.5 rounded transition-colors flex-shrink-0">
+          <span className="font-source text-[0.625rem] text-ctp-peach bg-ctp-surface0/50 group-hover:bg-ctp-surface0/80 px-1.5 py-0.5 rounded transition-colors flex-shrink-0">
             {shortHash}
           </span>
 
           {typeStyle && type && (
             <span
               className={cn(
-                "px-1.5 py-0.5 rounded-full text-[9px] font-source font-semibold",
+                "px-1.5 py-0.5 rounded-full text-[0.5625rem] font-source font-semibold",
                 typeStyle.color,
                 typeStyle.bg
               )}
@@ -182,13 +182,13 @@ const CommitRow: React.FC<CommitRowProps> = ({
           )}
 
           {scope && (
-            <span className="px-1.5 py-0.5 rounded text-[9px] font-source text-ctp-overlay2 bg-ctp-surface0/40 border border-ctp-surface0/60 flex-shrink-0">
+            <span className="px-1.5 py-0.5 rounded text-[0.5625rem] font-source text-ctp-overlay2 bg-ctp-surface0/40 border border-ctp-surface0/60 flex-shrink-0">
               {scope}
             </span>
           )}
 
           {repo && (
-            <span className="flex items-center gap-0.5 text-[10px] text-ctp-sapphire bg-ctp-sapphire/10 px-1.5 py-0.5 rounded-full font-source flex-shrink-0 group-hover:bg-ctp-sapphire/20 transition-colors">
+            <span className="flex items-center gap-0.5 text-[0.625rem] text-ctp-sapphire bg-ctp-sapphire/10 px-1.5 py-0.5 rounded-full font-source flex-shrink-0 group-hover:bg-ctp-sapphire/20 transition-colors">
               {repo}
               <FiExternalLink className="w-2 h-2 ml-0.5" />
             </span>
@@ -200,17 +200,17 @@ const CommitRow: React.FC<CommitRowProps> = ({
         (filesChanged != null && filesChanged > 0) ? (
           <div className="mt-1 flex items-center gap-2.5">
             {insertions != null && insertions > 0 && (
-              <span className="text-[10px] text-ctp-green font-source">
+              <span className="text-[0.625rem] text-ctp-green font-source">
                 +{insertions}
               </span>
             )}
             {deletions != null && deletions > 0 && (
-              <span className="text-[10px] text-ctp-red font-source">
+              <span className="text-[0.625rem] text-ctp-red font-source">
                 -{deletions}
               </span>
             )}
             {filesChanged != null && filesChanged > 0 && (
-              <span className="text-[10px] text-ctp-overlay1">
+              <span className="text-[0.625rem] text-ctp-overlay1">
                 {filesChanged} file{filesChanged !== 1 ? "s" : ""}
               </span>
             )}
@@ -221,7 +221,7 @@ const CommitRow: React.FC<CommitRowProps> = ({
       {/* Time */}
       <div className="flex-shrink-0 flex items-center gap-1 mt-0.5">
         <FiClock className="w-2.5 h-2.5 text-ctp-overlay0 group-hover:text-ctp-overlay1 transition-colors" />
-        <span className="text-[10px] text-ctp-overlay0 group-hover:text-ctp-overlay1 whitespace-nowrap transition-colors">
+        <span className="text-[0.625rem] text-ctp-overlay0 group-hover:text-ctp-overlay1 whitespace-nowrap transition-colors">
           {relTime}
         </span>
       </div>

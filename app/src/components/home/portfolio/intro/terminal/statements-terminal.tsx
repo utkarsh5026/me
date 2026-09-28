@@ -72,13 +72,13 @@ const Terminal: React.FC = () => {
             <div className="w-3 h-3 rounded-full bg-ctp-yellow border border-ctp-peach" />
             <div className="w-3 h-3 rounded-full bg-ctp-green border border-ctp-teal" />
           </div>
-          <div className="absolute inset-0 flex items-center justify-center font-source text-[11px] sm:text-xs text-ctp-overlay0 font-medium tracking-wider pointer-events-none">
+          <div className="absolute inset-0 flex items-center justify-center font-source text-[0.6875rem] sm:text-xs text-ctp-overlay0 font-medium tracking-wider pointer-events-none">
             utkarsh — bash
           </div>
         </div>
 
         {/* Terminal Body */}
-        <div className="relative h-[220px] sm:h-[180px] p-5 md:p-6 flex flex-col font-source text-sm sm:text-base selection:bg-ctp-surface2">
+        <div className="relative h-[13.75rem] sm:h-[11.25rem] p-5 md:p-6 flex flex-col font-source text-sm sm:text-base selection:bg-ctp-surface2">
           <AnimatedText qaPairs={qaPairs} />
         </div>
       </div>

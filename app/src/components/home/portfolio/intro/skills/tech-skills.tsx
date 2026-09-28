@@ -60,7 +60,7 @@ const TechSkillsComponent = () => {
           <span className="text-ctp-text text-xs">tech-stack</span>
         </div>
 
-        <div className="py-2 min-h-[500px] max-h-[500px] overflow-y-auto">
+        <div className="py-2 min-h-[31.25rem] max-h-[31.25rem] overflow-y-auto">
           <FileExplorer
             items={projectStructure}
             visibleItems={visibleItems}

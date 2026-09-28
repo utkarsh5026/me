@@ -27,7 +27,7 @@ const RustFocus: React.FC = () => {
 
       {/* Text */}
       <div className="flex flex-col min-w-0">
-        <span className="text-[10px] font-semibold uppercase tracking-widest text-ctp-peach/70 font-source leading-none mb-0.5">
+        <span className="text-[0.625rem] font-semibold uppercase tracking-widest text-ctp-peach/70 font-source leading-none mb-0.5">
           Current Focus
         </span>
         <p className="text-sm text-ctp-subtext1 font-source leading-snug">
