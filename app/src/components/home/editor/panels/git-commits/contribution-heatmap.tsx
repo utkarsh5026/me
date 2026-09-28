@@ -1,6 +1,8 @@
 import React, { useMemo, useState } from "react";
 import { FiChevronDown, FiChevronRight } from "react-icons/fi";
 
+import { pxToRem } from "@/lib/utils";
+
 interface ContributionHeatmapProps {
   commitsByDate: Record<string, number>;
 }
@@ -61,12 +63,13 @@ const ContributionHeatmap: React.FC<ContributionHeatmapProps> = ({
 
   const numCols = grid.length > 0 ? grid[grid.length - 1].col + 1 : 0;
   const gridWidth = numCols * (CELL_SIZE + GAP) + 28; // 28px for day labels
+  const gridHeight = 7 * (CELL_SIZE + GAP) + 16;
 
   return (
     <div className="flex-shrink-0 border-b border-ctp-surface0/40">
       <button
         onClick={() => setExpanded((e) => !e)}
-        className="flex items-center gap-1 w-full px-4 py-1.5 text-[10px] text-ctp-overlay1 uppercase tracking-widest font-medium hover:text-ctp-subtext0 transition-colors"
+        className="flex items-center gap-1 w-full px-4 py-1.5 text-[0.625rem] text-ctp-overlay1 uppercase tracking-widest font-medium hover:text-ctp-subtext0 transition-colors"
       >
         {expanded ? (
           <FiChevronDown className="w-3 h-3" />
@@ -79,8 +82,8 @@ const ContributionHeatmap: React.FC<ContributionHeatmapProps> = ({
       {expanded && (
         <div className="px-3 pb-2 overflow-x-auto scrollbar-none">
           <svg
-            width={gridWidth}
-            height={7 * (CELL_SIZE + GAP) + 16}
+            viewBox={`0 0 ${gridWidth} ${gridHeight}`}
+            style={{ width: pxToRem(gridWidth), height: pxToRem(gridHeight) }}
             className="block"
           >
             {/* Month labels */}

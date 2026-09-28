@@ -59,7 +59,7 @@ const StatTile: React.FC<StatTileProps> = ({ icon, value, label, color }) => (
       >
         {value}
       </div>
-      <div className="text-[9px] text-ctp-overlay0 mt-0.5 leading-none truncate">
+      <div className="text-[0.5625rem] text-ctp-overlay0 mt-0.5 leading-none truncate">
         {label}
       </div>
     </div>
@@ -126,14 +126,14 @@ const ActivityPanel: React.FC<ActivityPanelProps> = ({ open, onClose }) => {
             Activity Feed
           </span>
           {!loading && totalCommits > 0 && (
-            <span className="px-1.5 py-0.5 rounded-full bg-ctp-mauve/15 text-ctp-mauve text-[9px] font-semibold">
+            <span className="px-1.5 py-0.5 rounded-full bg-ctp-mauve/15 text-ctp-mauve text-[0.5625rem] font-semibold">
               {totalCommits}
             </span>
           )}
         </div>
         <div className="flex items-center gap-2">
           {genTime && !loading && (
-            <div className="flex items-center gap-1 text-[9px] text-ctp-overlay0">
+            <div className="flex items-center gap-1 text-[0.5625rem] text-ctp-overlay0">
               <FiRefreshCw className="w-2.5 h-2.5" />
               <span>{genTime}</span>
             </div>
@@ -171,7 +171,7 @@ const ActivityPanel: React.FC<ActivityPanelProps> = ({ open, onClose }) => {
               <StatTile
                 icon={
                   LANGUAGE_ICONS[topLanguage] ?? (
-                    <span className="text-[10px] font-bold text-ctp-peach">
+                    <span className="text-[0.625rem] font-bold text-ctp-peach">
                       {topLanguage.slice(0, 2)}
                     </span>
                   )
@@ -188,7 +188,7 @@ const ActivityPanel: React.FC<ActivityPanelProps> = ({ open, onClose }) => {
       {/* ── Language breakdown ── */}
       {!loading && !error && combinedLanguages.length > 0 && (
         <div className="flex-shrink-0 px-3 py-2.5 border-b border-ctp-surface0/50">
-          <span className="text-[9px] uppercase tracking-wider text-ctp-overlay0 font-semibold">
+          <span className="text-[0.5625rem] uppercase tracking-wider text-ctp-overlay0 font-semibold">
             Languages across all commits
           </span>
           <LanguageBar
@@ -208,8 +208,8 @@ const ActivityPanel: React.FC<ActivityPanelProps> = ({ open, onClose }) => {
           <div className="flex flex-col items-center justify-center h-full gap-3 text-ctp-overlay0 px-6 text-center">
             <VscPulse className="w-8 h-8 text-ctp-red" />
             <p className="text-xs text-ctp-red">Failed to load activity</p>
-            <p className="text-[10px] text-ctp-overlay0">{error}</p>
-            <p className="text-[10px] text-ctp-overlay0 mt-1">
+            <p className="text-[0.625rem] text-ctp-overlay0">{error}</p>
+            <p className="text-[0.625rem] text-ctp-overlay0 mt-1">
               Run <code className="text-ctp-peach">make gen-activity</code> to
               generate the data file.
             </p>
@@ -233,7 +233,7 @@ const ActivityPanel: React.FC<ActivityPanelProps> = ({ open, onClose }) => {
 
       {/* ── Footer ── */}
       <div className="flex-shrink-0 px-4 py-2 border-t border-ctp-surface0 bg-ctp-base/60 flex items-center justify-between">
-        <p className="text-[9px] text-ctp-overlay0 tracking-wider">
+        <p className="text-[0.5625rem] text-ctp-overlay0 tracking-wider">
           {feed?.githubUser ?? "utkarsh5026"} · github activity
         </p>
       </div>

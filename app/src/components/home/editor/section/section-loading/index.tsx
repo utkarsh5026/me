@@ -87,7 +87,7 @@ const ContactLoading = () => {
   }, []);
 
   return (
-    <div className="flex items-center justify-center min-h-[400px] w-full">
+    <div className="flex items-center justify-center min-h-[25rem] w-full">
       <div className="w-full max-w-2xl mx-auto">
         <div className="bg-ctp-surface0/50 backdrop-blur-sm rounded-lg border border-ctp-surface1/30 p-8">
           <div className="flex items-center gap-2 mb-6">

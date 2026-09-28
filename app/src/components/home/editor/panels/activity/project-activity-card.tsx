@@ -39,7 +39,7 @@ const ProjectActivityCard: React.FC<ProjectActivityCardProps> = ({
           {project.name}
         </span>
         {project.language && (
-          <span className="text-[10px] text-ctp-overlay0 ml-auto flex-shrink-0">
+          <span className="text-[0.625rem] text-ctp-overlay0 ml-auto flex-shrink-0">
             {project.language}
           </span>
         )}
@@ -58,7 +58,7 @@ const ProjectActivityCard: React.FC<ProjectActivityCardProps> = ({
       )}
 
       {/* Stats row */}
-      <div className="flex items-center gap-3 text-[10px] text-ctp-subtext0">
+      <div className="flex items-center gap-3 text-[0.625rem] text-ctp-subtext0">
         <span className="flex items-center gap-1">
           <FiGitCommit className="w-2.5 h-2.5 text-ctp-teal" />
           {project.commitCount}

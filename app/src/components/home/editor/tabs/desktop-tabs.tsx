@@ -77,7 +77,7 @@ const DesktopTabs: React.FC = () => {
                   : {})}
                 onClick={() => openTab(tab)}
                 className={cn(
-                  "relative h-10 px-3 flex-shrink-0 min-w-[140px] max-w-[220px] border-r border-ctp-surface0/50 text-xs transition-colors flex items-center gap-2 group",
+                  "relative h-10 px-3 flex-shrink-0 min-w-[8.75rem] max-w-[13.75rem] border-r border-ctp-surface0/50 text-xs transition-colors flex items-center gap-2 group",
                   isActive
                     ? "bg-ctp-base text-ctp-text font-medium"
                     : "bg-ctp-mantle text-ctp-subtext0 hover:bg-ctp-surface0 hover:text-ctp-text"

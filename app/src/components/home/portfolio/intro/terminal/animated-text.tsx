@@ -81,7 +81,7 @@ const AnimatedText: React.FC<AnimatedTextProps> = ({ qaPairs }) => {
           {typedQuestion}
           <span
             className={cn(
-              "inline-block w-[8px] h-[16px] ml-1 bg-ctp-overlay0 align-middle transition-opacity duration-300",
+              "inline-block w-2 h-4 ml-1 bg-ctp-overlay0 align-middle transition-opacity duration-300",
               step === "answered" ? "opacity-0" : styles.cursorBlink
             )}
           />

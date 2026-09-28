@@ -182,16 +182,16 @@ export const CodeBlock: React.FC<{ language: string; code: string }> = ({
       {/* Title bar (VS Code Tab style) */}
       <div className="flex items-center justify-between pr-4 bg-[#252526] border-b border-[#3c3c3c]">
         <div className="flex items-center">
-          <div className="flex items-center gap-1.5 px-4 py-2 bg-[#1e1e1e] border-t border-[#007acc] text-[#cccccc] text-[12px] font-mono tracking-wide">
+          <div className="flex items-center gap-1.5 px-4 py-2 bg-[#1e1e1e] border-t border-[#007acc] text-[#cccccc] text-[0.75rem] font-mono tracking-wide">
             {meta ? (
               <span
                 style={{ color: meta.color }}
-                className="flex items-center text-[13px]"
+                className="flex items-center text-[0.8125rem]"
               >
                 {meta.icon}
               </span>
             ) : (
-              <FiCode className="text-[13px] text-[#858585]" />
+              <FiCode className="text-[0.8125rem] text-[#858585]" />
             )}
             <span
               style={{
@@ -204,7 +204,7 @@ export const CodeBlock: React.FC<{ language: string; code: string }> = ({
         </div>
         <button
           onClick={handleCopy}
-          className="flex items-center gap-1.5 px-2.5 py-1 rounded text-[11px] font-mono text-[#858585] hover:text-[#cccccc] hover:bg-[#3c3c3c] transition-all duration-150 opacity-0 group-hover/code:opacity-100 my-1"
+          className="flex items-center gap-1.5 px-2.5 py-1 rounded text-[0.6875rem] font-mono text-[#858585] hover:text-[#cccccc] hover:bg-[#3c3c3c] transition-all duration-150 opacity-0 group-hover/code:opacity-100 my-1"
           title="Copy code"
         >
           {copied ? (

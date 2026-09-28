@@ -27,11 +27,11 @@ function GroupedCommitList<T>({
               className
             )}
           >
-            <span className="text-[10px] text-ctp-overlay1 uppercase tracking-widest font-medium">
+            <span className="text-[0.625rem] text-ctp-overlay1 uppercase tracking-widest font-medium">
               {group}
             </span>
             {showCount && (
-              <span className="text-[9px] text-ctp-overlay0 bg-ctp-surface0/50 px-1.5 py-0.5 rounded-full">
+              <span className="text-[0.5625rem] text-ctp-overlay0 bg-ctp-surface0/50 px-1.5 py-0.5 rounded-full">
                 {commits.length}
               </span>
             )}

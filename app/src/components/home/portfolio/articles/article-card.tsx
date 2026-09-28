@@ -30,7 +30,7 @@ const ArticleCard: React.FC<ArticleCardProps> = ({ article, index }) => {
     >
       <div
         className={cn(
-          "relative flex flex-col h-full rounded-2xl sm:rounded-[24px] transition-all duration-300 p-2 sm:p-2.5",
+          "relative flex flex-col h-full rounded-2xl sm:rounded-3xl transition-all duration-300 p-2 sm:p-2.5",
           "bg-gradient-to-b from-ctp-surface1/40 to-ctp-surface0/20",
           "border border-ctp-surface1/60",
           "overflow-hidden",
@@ -40,7 +40,7 @@ const ArticleCard: React.FC<ArticleCardProps> = ({ article, index }) => {
         )}
       >
         {/* Image Header wrapper - 16:9 aspect ratio */}
-        <div className="relative aspect-video w-full overflow-hidden rounded-xl sm:rounded-[16px] bg-ctp-surface0">
+        <div className="relative aspect-video w-full overflow-hidden rounded-xl sm:rounded-2xl bg-ctp-surface0">
           {!loaded && !error && (
             <div className="absolute inset-0 bg-ctp-surface0/80 animate-pulse">
               <div className="absolute inset-0 bg-gradient-to-r from-transparent via-ctp-surface1/20 to-transparent skeleton-shimmer" />
@@ -87,7 +87,7 @@ const ArticleCard: React.FC<ArticleCardProps> = ({ article, index }) => {
         <div className="flex flex-col flex-grow pt-4 sm:pt-5 px-2 sm:px-3 pb-2 sm:pb-3 bg-transparent relative z-10">
           <h3
             className={cn(
-              "text-sm sm:text-[15px] font-semibold text-ctp-text line-clamp-3 leading-snug",
+              "text-sm sm:text-[0.9375rem] font-semibold text-ctp-text line-clamp-3 leading-snug",
               "transition-colors duration-300",
               "sm:group-hover:text-ctp-pink"
             )}

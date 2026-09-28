@@ -68,7 +68,7 @@ const AvailableForOpportunities = () => {
                 />
               </span>
               <span
-                className={`text-[10px] sm:text-xs font-semibold text-ctp-green border border-ctp-green/20 bg-ctp-green/10 px-3 py-1 sm:py-1.5 rounded-full uppercase tracking-wider shadow-sm ${styles.handshakePill}`}
+                className={`text-[0.625rem] sm:text-xs font-semibold text-ctp-green border border-ctp-green/20 bg-ctp-green/10 px-3 py-1 sm:py-1.5 rounded-full uppercase tracking-wider shadow-sm ${styles.handshakePill}`}
               >
                 <span className={styles.handshakeLayers}>
                   <span aria-hidden="true" className={styles.connecting}>
@@ -106,7 +106,7 @@ const AvailableForOpportunities = () => {
                 className={`flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-xl bg-ctp-${opp.color}/10 border border-ctp-${opp.color}/20 text-ctp-${opp.color} hover:bg-ctp-${opp.color}/20 hover:shadow-lg hover:shadow-ctp-${opp.color}/10 transition-colors cursor-default ${opp.chipClass}`}
               >
                 {opp.icon}
-                <span className="text-[10px] sm:text-xs font-semibold">
+                <span className="text-[0.625rem] sm:text-xs font-semibold">
                   {opp.title}
                 </span>
               </div>

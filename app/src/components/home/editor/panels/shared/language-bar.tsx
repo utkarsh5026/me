@@ -71,11 +71,11 @@ const LanguageBar: React.FC<LanguageBarProps> = ({
                 style={{ backgroundColor: item.color }}
               />
               {item.language && (
-                <span className="text-[9px] text-ctp-subtext0 font-source">
+                <span className="text-[0.5625rem] text-ctp-subtext0 font-source">
                   {item.language}
                 </span>
               )}
-              <span className="text-[9px] text-ctp-overlay0 font-source">
+              <span className="text-[0.5625rem] text-ctp-overlay0 font-source">
                 {getPct(item)}
               </span>
             </span>

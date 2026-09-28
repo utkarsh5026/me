@@ -45,7 +45,7 @@ const TechBadge: React.FC<TechBadgeProps> = ({ tech }) => {
           {techData.icon}
         </div>
       </div>
-      <span className="text-[11px] sm:text-xs text-ctp-subtext1 group-hover/tech:text-ctp-text font-medium transition-colors duration-200 -mt-[1px]">
+      <span className="text-[0.6875rem] sm:text-xs text-ctp-subtext1 group-hover/tech:text-ctp-text font-medium transition-colors duration-200 -mt-[1px]">
         {techData.name}
       </span>
     </div>

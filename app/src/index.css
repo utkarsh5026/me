@@ -212,6 +212,16 @@
   body {
     @apply bg-background text-foreground;
   }
+
+  /* UI scale. The interface is sized in rem, so the root font-size sets the
+     density of everything. At the browser default the editor reads as zoomed
+     in on laptop screens; 80% gives it a VS Code-like density there. Phones
+     and touch tablets keep the default. Size new UI in rem so it follows. */
+  @media (min-width: 1024px) and (pointer: fine) {
+    html {
+      font-size: 80%;
+    }
+  }
 }
 
 @keyframes borderAnimation {

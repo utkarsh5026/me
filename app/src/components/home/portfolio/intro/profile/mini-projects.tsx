@@ -118,7 +118,7 @@ const MiniProjects: React.FC = () => {
                   </div>
 
                   {/* Tagline / description */}
-                  <p className="text-xs text-ctp-subtext0 mb-3 line-clamp-2 min-h-[32px] font-source">
+                  <p className="text-xs text-ctp-subtext0 mb-3 line-clamp-2 min-h-8 font-source">
                     {project.tagline ?? project.description}
                   </p>
 
@@ -128,7 +128,7 @@ const MiniProjects: React.FC = () => {
                       {project.technologies.slice(0, 3).map((p) => (
                         <span
                           key={p}
-                          className="text-[10px] px-1.5 py-0.5 rounded bg-ctp-base text-ctp-subtext1 font-source"
+                          className="text-[0.625rem] px-1.5 py-0.5 rounded bg-ctp-base text-ctp-subtext1 font-source"
                         >
                           {p}
                         </span>

@@ -41,7 +41,7 @@ const ResumeSection: React.FC = () => {
     >
       <div
         ref={ref}
-        className={`relative max-w-[850px] mx-auto p-8 sm:p-12 md:p-16 bg-ctp-crust border border-ctp-surface2 rounded-xl shadow-2xl font-mono ring-1 ring-ctp-surface1/50 my-6 ${styles.paper}`}
+        className={`relative max-w-[53.125rem] mx-auto p-8 sm:p-12 md:p-16 bg-ctp-crust border border-ctp-surface2 rounded-xl shadow-2xl font-mono ring-1 ring-ctp-surface1/50 my-6 ${styles.paper}`}
       >
         {/* Printer head riding the reveal edge */}
         <div aria-hidden="true" className={styles.scanLine} />

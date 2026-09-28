@@ -6,6 +6,32 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 /**
+ * Converts a px length, as designed at the default 16px root, to rem so an
+ * inline style follows the UI scale set on `html` in `index.css`.
+ *
+ * @example
+ * pxToRem(14) // "0.875rem"
+ */
+export function pxToRem(px: number): string {
+  return `${px / 16}rem`;
+}
+
+/**
+ * The rendered size, in CSS px, of a length designed as `px` at the default
+ * 16px root. Use it for layout math on rem-sized elements, since the root
+ * font-size is scaled on larger screens.
+ *
+ * @example
+ * scaledPx(420) // 336 when the root font-size is 12.8px (80%)
+ */
+export function scaledPx(px: number): number {
+  const rootPx = parseFloat(
+    getComputedStyle(document.documentElement).fontSize
+  );
+  return (px * rootPx) / 16;
+}
+
+/**
  * Prefixes a root-relative public asset path with the app's base path, so it
  * still resolves when the site is served from a subpath (e.g. GitHub Pages at
  * `/me/`). Absolute and protocol-relative URLs are returned unchanged.

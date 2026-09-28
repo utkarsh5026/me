@@ -71,6 +71,7 @@ If a git panel is empty in dev, run `make gen-git-all` / `make gen-activity`. Th
 - **Colors:** only use Catppuccin `ctp-*` Tailwind tokens. They are CSS variables in `src/index.css`, switched per flavor by `ThemeProvider` (a class on `<html>`, set from `store/settings-store.ts`). Hardcoded hex values break the flavor picker.
 - **Accent color props:** type them as `AppColor` from `lib/ctp-colors.ts`. `ctpColorClass()` builds class names at runtime, and `tailwind.config.js` has no safelist, so a combination only renders if that literal class also appears somewhere in the source.
 - **Text:** use `<Heading>` / `<Text>` from `components/ui/text.tsx` instead of raw `h1`–`h6` / `p`.
+- **Sizing:** size UI in rem: Tailwind scale classes, `[Nrem]` arbitrary values, and `pxToRem()` from `lib/utils.ts` for inline styles. `index.css` sets the root font-size to 80% on laptop/desktop screens, so px sizes don't follow the scale. Keep px only for hairlines such as 1–2px borders and dividers.
 - **Class names:** use `cn()` from `lib/utils.ts`.
 - **Shared UI:** reuse the primitives in `components/ui/` (shadcn "new-york", plus custom ones like `section-loader`, `icon-card`, `ghost-button`) and in `editor/panels/shared/` before writing new ones.
 - **Animations:** use CSS modules, `tailwindcss-animate`, or animejs. Don't add Framer Motion (it was deliberately removed).

@@ -112,7 +112,7 @@ const Logo: React.FC<LogoProps> = ({ centerDot }) => {
             <span
               ref={leftTextRef}
               className={`text-ctp-text opacity-0 ${
-                centerDot ? "relative right-[10px]" : ""
+                centerDot ? "relative right-2.5" : ""
               }`}
             >
               utkarsh
@@ -128,7 +128,7 @@ const Logo: React.FC<LogoProps> = ({ centerDot }) => {
             <span
               ref={rightTextRef}
               className={`text-ctp-text opacity-0 ${
-                centerDot ? "relative left-[10px]" : ""
+                centerDot ? "relative left-2.5" : ""
               }`}
             >
               me

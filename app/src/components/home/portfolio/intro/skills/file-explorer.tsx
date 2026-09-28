@@ -15,6 +15,7 @@ import {
 } from "react-icons/si";
 
 import { useGitComponent } from "@/hooks/use-git-component";
+import { pxToRem } from "@/lib/utils";
 
 import { FileItem } from "./project-structure";
 
@@ -76,7 +77,7 @@ export const FileExplorerItem: React.FC<FileExplorerItemProps> = ({
           isVisible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-4"
         }`}
         style={{
-          paddingLeft: `${paddingLeft}px`,
+          paddingLeft: pxToRem(paddingLeft),
           transitionDelay: `${item.delay}ms`,
         }}
         onClick={onToggle}
@@ -84,9 +85,9 @@ export const FileExplorerItem: React.FC<FileExplorerItemProps> = ({
         {item.type === "folder" && (
           <span className="mr-2 text-ctp-text flex-shrink-0">
             {isExpanded ? (
-              <ChevronDown size={14} />
+              <ChevronDown className="w-3.5 h-3.5" />
             ) : (
-              <ChevronRight size={14} />
+              <ChevronRight className="w-3.5 h-3.5" />
             )}
           </span>
         )}
@@ -94,9 +95,9 @@ export const FileExplorerItem: React.FC<FileExplorerItemProps> = ({
         <span className="mr-3 flex-shrink-0">
           {item.type === "folder" ? (
             isExpanded ? (
-              <FolderOpen size={16} className="text-ctp-blue" />
+              <FolderOpen className="w-4 h-4 text-ctp-blue" />
             ) : (
-              <Folder size={16} className="text-ctp-blue" />
+              <Folder className="w-4 h-4 text-ctp-blue" />
             )
           ) : (
             getFileIcon(item.extension)

@@ -4,7 +4,7 @@ import { FaReact } from "react-icons/fa";
 import { SiMarkdown } from "react-icons/si";
 import { VscGitCommit } from "react-icons/vsc";
 
-import { relativeTime } from "@/lib/utils";
+import { relativeTime, scaledPx } from "@/lib/utils";
 import {
   type AuthorMeta,
   type ComponentMeta,
@@ -38,14 +38,18 @@ const GitBlamePortalTooltip: React.FC<GitBlamePortalTooltipProps> = ({
 }) => {
   if (!meta) return null;
 
+  // The tooltip content is rem-sized, so size and flip it at the current UI scale.
+  const tooltipW = scaledPx(TOOLTIP_W);
+  const tooltipH = scaledPx(TOOLTIP_H);
+
   const left =
-    x + OFFSET_X + TOOLTIP_W > window.innerWidth
-      ? x - TOOLTIP_W - OFFSET_X
+    x + OFFSET_X + tooltipW > window.innerWidth
+      ? x - tooltipW - OFFSET_X
       : x + OFFSET_X;
 
   const top =
-    y + OFFSET_Y + TOOLTIP_H > window.innerHeight
-      ? y - TOOLTIP_H - OFFSET_Y
+    y + OFFSET_Y + tooltipH > window.innerHeight
+      ? y - tooltipH - OFFSET_Y
       : y + OFFSET_Y;
 
   const initials = meta.author
@@ -72,7 +76,7 @@ const GitBlamePortalTooltip: React.FC<GitBlamePortalTooltipProps> = ({
         position: "fixed",
         left,
         top,
-        width: TOOLTIP_W,
+        width: tooltipW,
         zIndex: 9999,
         pointerEvents: "auto",
       }}
@@ -80,7 +84,7 @@ const GitBlamePortalTooltip: React.FC<GitBlamePortalTooltipProps> = ({
     >
       {/* Component name badge */}
       <div className="flex items-center gap-1.5 mb-1.5">
-        <span className="flex items-center gap-1 text-[11px] font-semibold text-ctp-blue">
+        <span className="flex items-center gap-1 text-[0.6875rem] font-semibold text-ctp-blue">
           {meta.file.endsWith(".md") ? (
             <SiMarkdown className="w-3 h-3" />
           ) : (
@@ -88,7 +92,7 @@ const GitBlamePortalTooltip: React.FC<GitBlamePortalTooltipProps> = ({
           )}
           {meta.name}
         </span>
-        <span className="text-ctp-surface2 text-[10px]">
+        <span className="text-ctp-surface2 text-[0.625rem]">
           {fileName}:{meta.lines[0]}–{meta.lines[1]}
         </span>
       </div>
@@ -102,7 +106,7 @@ const GitBlamePortalTooltip: React.FC<GitBlamePortalTooltipProps> = ({
             className="w-5 h-5 rounded-full flex-shrink-0 object-cover"
           />
         ) : (
-          <span className="w-5 h-5 rounded-full bg-ctp-mauve/25 text-ctp-mauve flex items-center justify-center text-[9px] font-bold flex-shrink-0">
+          <span className="w-5 h-5 rounded-full bg-ctp-mauve/25 text-ctp-mauve flex items-center justify-center text-[0.5625rem] font-bold flex-shrink-0">
             {initials}
           </span>
         )}
@@ -133,13 +137,13 @@ const GitBlamePortalTooltip: React.FC<GitBlamePortalTooltipProps> = ({
       {meta.diffStat &&
         (meta.diffStat.added > 0 || meta.diffStat.deleted > 0) && (
           <div className="flex items-center gap-2 mt-1.5 pt-1.5 border-t border-ctp-surface1/60">
-            <span className="text-ctp-green font-mono text-[10px]">
+            <span className="text-ctp-green font-mono text-[0.625rem]">
               +{meta.diffStat.added}
             </span>
-            <span className="text-ctp-red font-mono text-[10px]">
+            <span className="text-ctp-red font-mono text-[0.625rem]">
               -{meta.diffStat.deleted}
             </span>
-            <span className="text-ctp-overlay0 text-[10px] ml-auto">
+            <span className="text-ctp-overlay0 text-[0.625rem] ml-auto">
               lines changed in commit
             </span>
           </div>

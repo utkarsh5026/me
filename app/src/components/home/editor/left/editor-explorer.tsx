@@ -24,11 +24,11 @@ import {
 } from "../context/editor-store";
 import OutlinePanel from "../outline/outline-panel";
 
-const folderIcon = <VscFolder className="w-[14px] h-[14px]" />;
-const folderOpenIcon = <VscFolderOpened className="w-[14px] h-[14px]" />;
-const tsIcon = <SiTypescript className="w-[14px] h-[14px]" />;
-const mdIcon = <VscMarkdown className="w-[14px] h-[14px]" />;
-const pdfIcon = <VscFilePdf className="w-[14px] h-[14px]" />;
+const folderIcon = <VscFolder className="w-3.5 h-3.5" />;
+const folderOpenIcon = <VscFolderOpened className="w-3.5 h-3.5" />;
+const tsIcon = <SiTypescript className="w-3.5 h-3.5" />;
+const mdIcon = <VscMarkdown className="w-3.5 h-3.5" />;
+const pdfIcon = <VscFilePdf className="w-3.5 h-3.5" />;
 
 function fileIcon(name: string) {
   if (name.endsWith(".pdf")) return pdfIcon;
@@ -69,7 +69,7 @@ const Explorer: React.FC = () => {
 
       {/* Section label */}
       <div className="flex items-center px-4 pb-1 mb-0">
-        <div className="text-[11px] font-bold uppercase tracking-widest text-ctp-subtext0">
+        <div className="text-[0.6875rem] font-bold uppercase tracking-widest text-ctp-subtext0">
           Explorer
         </div>
       </div>
@@ -111,8 +111,8 @@ const Explorer: React.FC = () => {
             >
               {isLoading && (
                 <p
-                  style={{ paddingLeft: "46px" }}
-                  className="text-[11px] text-ctp-overlay0 py-1.5 font-source animate-pulse"
+                  style={{ paddingLeft: "2.875rem" }}
+                  className="text-[0.6875rem] text-ctp-overlay0 py-1.5 font-source animate-pulse"
                 >
                   loading…
                 </p>

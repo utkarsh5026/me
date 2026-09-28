@@ -144,7 +144,7 @@ const OutlinePanel: React.FC = () => {
   );
 
   const header = (
-    <CollapsibleTrigger className="flex items-center gap-1 px-4 h-6 w-full text-[11px] uppercase tracking-wider text-ctp-subtext0 font-semibold hover:text-ctp-text cursor-pointer transition-colors duration-200">
+    <CollapsibleTrigger className="flex items-center gap-1 px-4 h-6 w-full text-[0.6875rem] uppercase tracking-wider text-ctp-subtext0 font-semibold hover:text-ctp-text cursor-pointer transition-colors duration-200">
       <ChevronRight
         className="w-3 h-3 transition-transform duration-150 shrink-0"
         style={{ transform: isOpen ? "rotate(90deg)" : "rotate(0deg)" }}
@@ -161,7 +161,7 @@ const OutlinePanel: React.FC = () => {
         className="h-full flex flex-col bg-ctp-mantle border-r border-ctp-surface0 w-64"
       >
         {header}
-        <CollapsibleContent className="flex items-center justify-center flex-1 text-[13px] text-ctp-subtext0 px-4 text-center">
+        <CollapsibleContent className="flex items-center justify-center flex-1 text-[0.8125rem] text-ctp-subtext0 px-4 text-center">
           No outline information available.
         </CollapsibleContent>
       </Collapsible>

@@ -163,7 +163,7 @@ const Projects: React.FC = () => {
                             label={project.name}
                             icon={
                               project.icon ? (
-                                <span className="text-[10px]">
+                                <span className="text-[0.625rem]">
                                   {project.icon}
                                 </span>
                               ) : undefined

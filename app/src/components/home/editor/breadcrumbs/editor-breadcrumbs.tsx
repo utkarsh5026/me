@@ -46,8 +46,8 @@ import styles from "../editor-ui.module.css";
 import { getIconColor, sectionIconMap } from "../tabs/tab-style";
 import TreeDropdown from "./tree-dropdown";
 
-const folderIcon = <VscFolder className="w-[14px] h-[14px]" />;
-const folderOpenIcon = <VscFolderOpened className="w-[14px] h-[14px]" />;
+const folderIcon = <VscFolder className="w-3.5 h-3.5" />;
+const folderOpenIcon = <VscFolderOpened className="w-3.5 h-3.5" />;
 
 interface BreadcrumbSegment {
   label: string;
@@ -197,7 +197,7 @@ const BreadcrumbSegmentItem: React.FC<SegmentProps> = ({
 
   const inner = (
     <>
-      <span className={cn("flex-shrink-0 text-[11px]", seg.iconColor)}>
+      <span className={cn("flex-shrink-0 text-[0.6875rem]", seg.iconColor)}>
         {seg.isFolder ? <FolderIcon isOpen={open} /> : seg.icon}
       </span>
       <span
@@ -234,8 +234,8 @@ const BreadcrumbSegmentItem: React.FC<SegmentProps> = ({
     );
   }
 
-  const tsIcon = <SiTypescript className="w-[14px] h-[14px]" />;
-  const mdIcon = <VscMarkdown className="w-[14px] h-[14px]" />;
+  const tsIcon = <SiTypescript className="w-3.5 h-3.5" />;
+  const mdIcon = <VscMarkdown className="w-3.5 h-3.5" />;
 
   const projectFileItems = projects.map((p) => (
     <Tree.Item

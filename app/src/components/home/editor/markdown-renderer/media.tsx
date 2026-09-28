@@ -108,7 +108,7 @@ export const MarkdownImage: React.FC<{ src?: string; alt?: string }> = ({
         )}
 
         {alt && loaded && !error && (
-          <figcaption className="mt-1.5 md:mt-2 text-center text-[10px] md:text-[11px] text-ctp-overlay0 font-mono italic">
+          <figcaption className="mt-1.5 md:mt-2 text-center text-[0.625rem] md:text-[0.6875rem] text-ctp-overlay0 font-mono italic">
             {alt}
           </figcaption>
         )}
@@ -147,7 +147,7 @@ const MarkdownYouTube: React.FC<{ id: string; title: string }> = ({
               </div>
             </div>
             {/* YouTube badge */}
-            <div className="absolute top-3 right-3 px-2 py-0.5 rounded bg-black/70 text-[10px] font-mono text-white/80 backdrop-blur-sm">
+            <div className="absolute top-3 right-3 px-2 py-0.5 rounded bg-black/70 text-[0.625rem] font-mono text-white/80 backdrop-blur-sm">
               YouTube
             </div>
           </div>
@@ -162,7 +162,7 @@ const MarkdownYouTube: React.FC<{ id: string; title: string }> = ({
         )}
       </div>
       {title && (
-        <figcaption className="mt-1.5 md:mt-2 text-center text-[10px] md:text-[11px] text-ctp-overlay0 font-mono italic">
+        <figcaption className="mt-1.5 md:mt-2 text-center text-[0.625rem] md:text-[0.6875rem] text-ctp-overlay0 font-mono italic">
           {title}
         </figcaption>
       )}
@@ -180,11 +180,11 @@ const MarkdownVideo: React.FC<{ src: string; alt: string }> = ({
         src={src}
         controls
         preload="metadata"
-        className="w-full max-h-[480px] object-contain"
+        className="w-full max-h-[30rem] object-contain"
       />
     </div>
     {alt && (
-      <figcaption className="mt-1.5 md:mt-2 text-center text-[10px] md:text-[11px] text-ctp-overlay0 font-mono italic">
+      <figcaption className="mt-1.5 md:mt-2 text-center text-[0.625rem] md:text-[0.6875rem] text-ctp-overlay0 font-mono italic">
         {alt}
       </figcaption>
     )}

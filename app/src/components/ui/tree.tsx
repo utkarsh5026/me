@@ -7,7 +7,7 @@ import React, {
 } from "react";
 import { VscChevronRight } from "react-icons/vsc";
 
-import { cn } from "@/lib/utils";
+import { cn, pxToRem } from "@/lib/utils";
 
 export type TreeExpandMode = "manual" | "all-open";
 
@@ -18,6 +18,7 @@ export interface TreeProps {
   expanded?: Set<string>;
   onExpandedChange?: (expanded: Set<string>) => void;
   guideLines?: boolean;
+  // Indents and row height are px at the default 16px root; they render in rem.
   indentStep?: number;
   indentBase?: number;
   rowHeight?: number;
@@ -77,7 +78,7 @@ const GuideLines: React.FC<{ depth: number; indentStep: number }> = ({
       <span
         key={i}
         className="absolute top-0 bottom-0 border-l border-ctp-surface1/30"
-        style={{ left: `${i * indentStep + 10}px` }}
+        style={{ left: pxToRem(i * indentStep + 10) }}
       />
     ))}
   </>
@@ -85,7 +86,7 @@ const GuideLines: React.FC<{ depth: number; indentStep: number }> = ({
 
 function rowClassName(isActive: boolean, className?: string) {
   return cn(
-    "group w-full text-left pr-3 text-[13px] flex items-center cursor-pointer outline-none font-source select-none relative",
+    "group w-full text-left pr-3 text-[0.8125rem] flex items-center cursor-pointer outline-none font-source select-none relative",
     isActive
       ? "bg-ctp-surface1/60 text-ctp-text"
       : "text-ctp-subtext0 hover:text-ctp-text hover:bg-ctp-surface0/50",
@@ -111,14 +112,14 @@ const TreeItem: React.FC<TreeItemProps> = ({
     <button
       onClick={onClick}
       style={{
-        paddingLeft: `${paddingLeft}px`,
-        ...(rowHeight != null ? { height: `${rowHeight}px` } : {}),
+        paddingLeft: pxToRem(paddingLeft),
+        ...(rowHeight != null ? { height: pxToRem(rowHeight) } : {}),
       }}
-      className={cn(rowClassName(isActive, className), "gap-1.5 py-[4px]")}
+      className={cn(rowClassName(isActive, className), "gap-1.5 py-1")}
     >
       {guideLines && <GuideLines depth={depth} indentStep={indentStep} />}
       {icon && (
-        <span className={cn("w-[14px] h-[14px] flex-shrink-0", iconColor)}>
+        <span className={cn("w-3.5 h-3.5 flex-shrink-0", iconColor)}>
           {icon}
         </span>
       )}
@@ -165,16 +166,16 @@ const TreeGroup: React.FC<TreeGroupProps> = ({
       <button
         onClick={handleClick}
         style={{
-          paddingLeft: `${paddingLeft}px`,
-          ...(rowHeight != null ? { height: `${rowHeight}px` } : {}),
+          paddingLeft: pxToRem(paddingLeft),
+          ...(rowHeight != null ? { height: pxToRem(rowHeight) } : {}),
         }}
-        className={cn(rowClassName(isActive, className), "gap-1 py-[4px]")}
+        className={cn(rowClassName(isActive, className), "gap-1 py-1")}
       >
         {guideLines && <GuideLines depth={depth} indentStep={indentStep} />}
         {!alwaysOpen && (
           <VscChevronRight
             className={cn(
-              "w-[14px] h-[14px] flex-shrink-0 transition-transform duration-150",
+              "w-3.5 h-3.5 flex-shrink-0 transition-transform duration-150",
               isOpen ? "rotate-90 text-ctp-text" : "text-ctp-overlay0"
             )}
           />
